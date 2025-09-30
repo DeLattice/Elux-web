@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
 [tuiIcons]:before, [tuiIcons]:after {
   block-size: 0.8em;
@@ -10,3 +10,8 @@
   box-sizing: border-box;
 }
 
+
+:root, :host {
+  --tui-font-heading: "Nunito Sans", sans-serif;
+  --tui-font-text: "Nunito Sans", sans-serif
+}

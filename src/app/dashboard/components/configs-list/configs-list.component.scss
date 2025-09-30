@@ -5,5 +5,15 @@
 
   tui-scrollbar, .viewport {
     height: 100%;
+
+    div {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  app-config-card {
+    max-width: 40em;
   }
 }
+

@@ -1,4 +1,4 @@
-@let name_client = config().name_client;
+@let nameClient = config().nameClient;
 
 <section
   tuiCardLarge="compact"
@@ -6,54 +6,46 @@
 >
   <header tuiHeader="body-m">
     <hgroup tuiTitle>
-      <h2>[{{ index() + 1 }}] {{ (name_client ? name_client : 'None') | decodeUrl }}</h2>
-      <p tuiSubtitle>
-        Some clients could encounter an error “Account not found” when selecting the account on the checkout
-        screen
-      </p>
+      <h2>
+        {{ (nameClient ? nameClient : 'None') | decodeUrl }}
+      </h2>
     </hgroup>
     <aside tuiAccessories>
       <button
-        appearance="action-grayscale"
-        iconEnd="@tui.copy"
-        tuiLink
+        tuiButton
+        appearance="secondary"
         type="button"
       >
-        237-123-42
+        <tui-icon icon="@tui.copy" />
       </button>
     </aside>
   </header>
+
   <div tuiCardRow>
-    <div tuiTitle>
-      <div tuiSubtitle>Status</div>
-      <div>
-        <tui-icon icon="@tui.clock" />
-        Pending
+    <div class="t-row">
+      <div tuiTitle>
+        <div tuiSubtitle>Status</div>
+        <div>
+          <tui-icon icon="@tui.clock"/>
+          Pending
+        </div>
+      </div>
+
+      <div tuiTitle>
+        <div tuiSubtitle>Protocol</div>
+        <p>
+          {{ config().protocol | uppercase }}
+        </p>
+      </div>
+
+      <div tuiTitle>
+        <div tuiSubtitle>Transport</div>
+        <p>
+          {{ config().streamSettings.transport | uppercase }}
+        </p>
       </div>
     </div>
-    <div tuiTitle>
-      <div tuiSubtitle>Unit</div>
-      <a
-        href="https://github.com/taiga-family/taiga-ui"
-        rel="noreferrer"
-        target="_blank"
-        tuiLink
-      >
-        Taiga UI
-      </a>
-    </div>
-    <div tuiTitle>
-      <div tuiSubtitle>Category</div>
-      <div>
-        Angular
-        <tui-badge
-          appearance="neutral"
-          size="s"
-        >
-          Open Source
-        </tui-badge>
-      </div>
-    </div>
+
     <button
       appearance="secondary"
       size="s"
@@ -65,6 +57,7 @@
       Expand
     </button>
   </div>
+
   <tui-expand [expanded]="!collapsed()">
     <table tuiTable>
       <thead>

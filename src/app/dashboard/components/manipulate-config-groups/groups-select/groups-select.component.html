@@ -7,13 +7,14 @@
   <input
     placeholder="Select a group"
     tuiSelect
+    (ngModelChange)="selectGroup($event)"
     [(ngModel)]="value"
   />
 
   <tui-data-list-wrapper
     *tuiTextfieldDropdown
     new
-    [items]="users"
+    [items]="groups()"
   />
 
   @if (value) {

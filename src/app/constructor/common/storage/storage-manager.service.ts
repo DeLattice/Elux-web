@@ -1,5 +1,4 @@
 import { Injectable, afterNextRender, inject } from '@angular/core';
-import {WindowService} from '../../services/window.service';
 
 /* ---------- Memory fallback ---------- */
 class MemoryStorage implements Storage {
@@ -15,25 +14,13 @@ class MemoryStorage implements Storage {
 
 @Injectable({ providedIn: 'root' })
 export class StorageManagerService {
-  private readonly windowService = inject(WindowService);
 
   sessionStorage!: Storage;
   localStorage!: Storage;
 
   constructor() {
-    const isClient = this.windowService.isClient();
-
-    // 1) начальная привязка
-    this.sessionStorage = isClient ? window.sessionStorage : new MemoryStorage();
-    this.localStorage  = isClient ? window.localStorage  : new MemoryStorage();
-
-    // 2) если это был prerender — «подменяем» ссылки после гидратации
-    if (!isClient) {
-      afterNextRender(() => {
-        this.sessionStorage = window.sessionStorage;
-        this.localStorage  = window.localStorage;
-      });
-    }
+    this.sessionStorage = window.sessionStorage
+    this.localStorage  = window.localStorage
   }
 
   /* ---- приватный помощник ---- */

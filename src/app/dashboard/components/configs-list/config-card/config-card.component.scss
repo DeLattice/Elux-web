@@ -1,3 +1,22 @@
 :host {
   display: block;
+
+  header[tuiHeader] {
+    --t-comp: 0;
+
+    hgroup[tuiTitle] {
+      font-weight: 600;
+    }
+  }
+
+  div[tuiCardRow] {
+    div.t-row {
+      display: flex;
+      gap: 4rem;
+
+      padding: 1em;
+      border-radius: var(--tui-radius-m);
+      background: var(--tui-background-neutral-1);
+    }
+  }
 }

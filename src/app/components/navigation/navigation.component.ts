@@ -40,6 +40,7 @@ import {TuiCardLarge, TuiForm, TuiHeader, TuiNavigation} from '@taiga-ui/layout'
     NgOptimizedImage,
     TuiTab,
     TuiTabs,
+    RouterLink,
   ],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss',

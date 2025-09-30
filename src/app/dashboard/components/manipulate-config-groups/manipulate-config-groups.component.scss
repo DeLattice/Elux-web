@@ -4,24 +4,17 @@
 
   gap: 1em;
 
-  > div {
-    &:nth-child(1) {
-      flex: 0 0 20%;
-    }
-  }
+  max-width: 40em;
 
-  .btn-container {
+  .edit-group-container {
     display: flex;
-    gap: calc(1em / 2);
-  }
+    flex-direction: row;
 
-  .group-container {
-    display: flex;
-    flex-direction: column;
+    flex: 1;
 
     gap: calc(1em / 2);
 
-    button {
+    app-groups-select {
       flex: 1;
     }
   }

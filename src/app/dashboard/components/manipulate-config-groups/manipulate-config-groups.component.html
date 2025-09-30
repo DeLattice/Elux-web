@@ -1,23 +1,27 @@
-<div class="group-container">
-  <div class="btn-container">
-    <button
-      size="m"
-      tuiButton
-      type="button"
-      (click)="showDialogEditGroup()"
-    >
-      Edit group
-    </button>
-
-    <button
-      size="m"
-      tuiButton
-      type="button"
-      (click)="showDialogAddGroup()"
-    >
-      Add group
-    </button>
-  </div>
-
+<div class="edit-group-container">
   <app-groups-select/>
+
+  <button
+    size="m"
+    tuiButton
+    appearance="info"
+    type="button"
+    (click)="showDialogEditGroup()"
+  >
+   	<tui-icon
+       icon="@tui.settings"
+   />
+  </button>
+
+  <button
+    size="m"
+    tuiButton
+    appearance="info"
+    type="button"
+    (click)="showDialogAddGroup()"
+  >
+   	<tui-icon
+       icon="@tui.plus"
+   />
+  </button>
 </div>

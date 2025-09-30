@@ -1,5 +1,5 @@
 <header tuiNavigationHeader #header>
-  <img ngSrc="assets/logo.webp" class="logo" alt="logotype" width="32" height="32"/>
+  <img ngSrc="assets/logo.webp" class="logo" alt="logotype" width="32" height="32" priority/>
 
   <span tuiNavigationLogo>
 	        <span tuiFade>Luxnulla</span>
@@ -28,6 +28,7 @@
         iconStart="@tui.home"
         tuiAsideItem
         type="button"
+        routerLink="/"
       >
         <span tuiFade>Dashboard</span>
       </button>
@@ -106,11 +107,7 @@
       tuiSubheader
       [style.position]="'sticky'"
     >
-      <tui-tabs>
-        <a tuiTab>Default view</a>
-        <a tuiTab>Contributors</a>
-        <a tuiTab>Code</a>
-      </tui-tabs>
+      <ng-content select="[name]"/>
     </nav>
 
     <div>

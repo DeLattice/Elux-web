@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, Component, input, signal} from '@angular/core';
-import {XrayClientConfig} from '../../../types/rdo/configs.rdo';
+import {ChangeDetectionStrategy, Component, inject, input, Pipe, PipeTransform, signal} from '@angular/core';
 import {TuiCardCollapsed, TuiCardLarge, TuiCardRow, TuiHeader} from '@taiga-ui/layout';
-import {TuiButton, TuiIcon, TuiLink, TuiTitle} from '@taiga-ui/core';
-import {DecodeUrlPipe} from '../../../../constructor/pipes/decode-url.pipe';
+import {TuiAlertService, TuiButton, TuiIcon, TuiLink, TuiTitle} from '@taiga-ui/core';
 import {TuiBadge, TuiChevron} from '@taiga-ui/kit';
 import {TuiExpand} from '@taiga-ui/experimental';
 import {TuiTableDirective, TuiTableTd, TuiTableTh} from '@taiga-ui/addon-table';
+import {DecodeUrlPipe} from '@constructor/pipes/decode-url.pipe';
+import {XrayOutboundClientConfig} from '@app/dashboard/model/rdo/xray/outbound';
+import {UpperCasePipe} from '@angular/common';
+import {TuiCopyProcessor} from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-config-card',
@@ -15,16 +17,15 @@ import {TuiTableDirective, TuiTableTd, TuiTableTh} from '@taiga-ui/addon-table';
     TuiHeader,
     TuiTitle,
     DecodeUrlPipe,
-    TuiLink,
     TuiCardRow,
     TuiIcon,
     TuiButton,
-    TuiBadge,
     TuiChevron,
     TuiExpand,
     TuiTableDirective,
     TuiTableTh,
-    TuiTableTd
+    TuiTableTd,
+    UpperCasePipe,
   ],
   templateUrl: './config-card.component.html',
   styleUrl: './config-card.component.scss',
@@ -33,6 +34,21 @@ import {TuiTableDirective, TuiTableTd, TuiTableTh} from '@taiga-ui/addon-table';
 export class ConfigCardComponent {
   public readonly collapsed = signal(true);
 
-  public readonly config = input.required<XrayClientConfig>()
-  public readonly index = input.required<number>()
+  public readonly config = input.required<XrayOutboundClientConfig>()
+
+  private readonly alerts = inject(TuiAlertService);
+
+  public get ipAddress(): string {
+    return ""
+  };
+
+  protected onCopy(): void {
+    this.alerts
+      .open(`IP-адрес **${this.ipAddress}** скопирован`, {
+        label: 'Копирование выполнено',
+        autoClose: 3000,
+      })
+      .subscribe();
+  }
+
 }

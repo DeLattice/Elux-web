@@ -1,19 +1,13 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
-  tuiCreateLuhnValidator,
-  TuiInputCard,
-  TuiInputCVC,
-  TuiInputExpire,
-} from '@taiga-ui/addon-commerce';
-import {
-  TuiAlertService, TuiAppearance, TuiButton,
-  TuiError, TuiHintDirective, TuiIcon,
+  TuiButton,
+  TuiIcon,
   TuiTextfield
 } from '@taiga-ui/core';
-import {TuiFieldErrorPipe, TuiTooltip} from '@taiga-ui/kit';
+import {TuiTooltip} from '@taiga-ui/kit';
 import {TuiForm} from '@taiga-ui/layout';
+import {DialogBackendService} from '../dialog-backend.service';
 
 @Component({
   selector: 'app-dialog-add-group',
@@ -31,10 +25,19 @@ import {TuiForm} from '@taiga-ui/layout';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogAddGroupComponent {
-  private readonly alerts = inject(TuiAlertService);
+  private readonly dialogBackendService = inject(DialogBackendService)
 
   protected readonly form = new FormGroup({
     name: new FormControl('',),
     payload: new FormControl(''),
   });
+
+  createGroup() {
+    const name = this.form.get('name')?.value
+    const config = this.form.get('payload')?.value
+
+    if (!name || !config) return
+
+    this.dialogBackendService.createGroup({name, config}).subscribe()
+  }
 }
