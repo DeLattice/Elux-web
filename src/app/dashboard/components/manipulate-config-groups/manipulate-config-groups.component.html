@@ -4,13 +4,25 @@
   <button
     size="m"
     tuiButton
+    appearance="negative"
+    type="button"
+    (click)="showDialogDeleteGroup()"
+  >
+    <tui-icon
+      icon="@tui.trash"
+    />
+  </button>
+
+  <button
+    size="m"
+    tuiButton
     appearance="info"
     type="button"
     (click)="showDialogEditGroup()"
   >
-   	<tui-icon
-       icon="@tui.settings"
-   />
+    <tui-icon
+      icon="@tui.settings"
+    />
   </button>
 
   <button
@@ -20,8 +32,8 @@
     type="button"
     (click)="showDialogAddGroup()"
   >
-   	<tui-icon
-       icon="@tui.plus"
-   />
+    <tui-icon
+      icon="@tui.plus"
+    />
   </button>
 </div>

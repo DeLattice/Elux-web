@@ -45,7 +45,7 @@ export class ConfigsListComponent {
         page: 0,
       });
     }),
-    map((data) => chunkArrayInPairs(data))
+    // map((data) => chunkArrayInPairs(data))
   );
 }
 

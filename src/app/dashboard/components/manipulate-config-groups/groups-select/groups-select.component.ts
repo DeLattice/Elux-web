@@ -1,8 +1,7 @@
 import {
-  ChangeDetectionStrategy,
-  Component, computed, effect,
-  inject, Injector, OnInit,
-  signal,
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component, effect,
+  inject,
 } from "@angular/core";
 import {
   TuiChevron,
@@ -17,9 +16,7 @@ import {
   TuiTextfieldOptionsDirective,
 } from "@taiga-ui/core";
 import {FormsModule} from "@angular/forms";
-import {ManipulateConfigGroupsService} from "../manipulate-config-groups.service";
 import {DashboardStateService} from "@app/dashboard/dashboard.state";
-import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: "app-groups-select",
@@ -39,38 +36,31 @@ import {toSignal} from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsSelectComponent {
-  private readonly manipulateConfigGroupsService = inject(ManipulateConfigGroupsService);
-  private readonly dashboardStateService = inject(DashboardStateService);
-  private readonly injector = inject(Injector);
-
-  protected readonly groups = signal<string[] | null>(null);
-
-  protected value: string | null = null;
+  private readonly cdr = inject(ChangeDetectorRef);
 
   constructor() {
-    this.manipulateConfigGroupsService.getGroupNames().subscribe({
-      next: (groups) => {
-        this.groups.set(groups);
-      },
-      error: (error) => {
-        console.error("Error fetching group names:", error);
-      },
-    });
-
     effect(() => {
       const currentGroups = this.groups();
 
-      if (currentGroups && currentGroups.length > 0) {
-        const firstGroup = currentGroups[0];
-
-        this.value = firstGroup;
-
-        this.selectGroup(firstGroup);
+      if (this.value && currentGroups && currentGroups.length > 0) {
+        this.selectGroup(currentGroups[currentGroups.length - 1]);
       }
-    }, { injector: this.injector });
+
+      if (!this.value && currentGroups && currentGroups.length > 0) {
+        this.selectGroup(currentGroups[currentGroups.length - 1]);
+      }
+
+      this.cdr.markForCheck();
+    });
   }
 
+  private readonly dashboardStateService = inject(DashboardStateService);
+
+  protected readonly groups = this.dashboardStateService.groups;
+  protected value: string | null = null;
+
   selectGroup(event: string) {
+    this.value = event;
     this.dashboardStateService.setActiveGroup = event;
   }
 }

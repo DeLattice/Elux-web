@@ -11,13 +11,17 @@ import { XrayOutboundClientConfig } from "./model/rdo/xray/outbound";
 export class DashboardService {
   private readonly http = inject(HttpClient);
 
+  getGroupNames(): Observable<string[]> {
+    return this.http.get<string[]>('groups');
+  }
+
   getConfigs(
     group: string,
     params: PaginationParams,
   ): Observable<XrayOutboundClientConfig[]> {
     return this.http.get<XrayOutboundClientConfig[]>(`/groups/${group}/configs`, {
       params: {
-        limit: 50,
+        limit: 100,
         page: 0,
       },
     });

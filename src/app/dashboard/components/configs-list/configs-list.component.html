@@ -2,16 +2,14 @@
   <cdk-virtual-scroll-viewport
     tuiScrollable
     class="viewport tui-zero-scrollbar"
-    [itemSize]="150"
+    [itemSize]="172"
   >
     <div
-      *cdkVirtualFor="let configs of configs$ | async; index as idx"
+      *cdkVirtualFor="let config of configs$ | async; index as idx"
     >
-      @for (config of configs; track $index) {
         <app-config-card
           [config]="config"
         />
-      }
     </div>
   </cdk-virtual-scroll-viewport>
 </tui-scrollbar>
