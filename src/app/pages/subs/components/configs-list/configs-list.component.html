@@ -4,9 +4,7 @@
     class="viewport tui-zero-scrollbar"
     [itemSize]="172"
   >
-    <div
-      *cdkVirtualFor="let config of configs$ | async; index as idx"
-    >
+    <div *cdkVirtualFor="let config of configs$ | async; index as idx">
         <app-config-card
           [config]="config"
         />

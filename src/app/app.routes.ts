@@ -1,35 +1,24 @@
-import {Routes} from '@angular/router';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {HeaderComponent as DashboardHeader} from './dashboard/components/header/header.component';
+import { Routes } from "@angular/router";
+import { DashboardComponent } from "./pages/dashboard/dashboard.component";
+import { SubsComponent } from "./pages/subs/subs.component";
+import { SettingsComponent } from "./pages/settings/settings.component";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: "",
     children: [
       {
-        path: '',
+        path: "",
         component: DashboardComponent,
       },
       {
-        path: 'header',
-        component: DashboardHeader,
-        outlet: 'header'
-      }
-    ]
+        path: "subs",
+        component: SubsComponent,
+      },
+      {
+        path: "settings",
+        component: SettingsComponent,
+      },
+    ],
   },
-
-  {
-    path: 'aaa',
-    children: [
-      {
-        path: '',
-        component: DashboardComponent,
-      },
-      {
-        path: 'header',
-        component: DashboardHeader,
-        outlet: 'header'
-      }
-    ]
-  }
 ];

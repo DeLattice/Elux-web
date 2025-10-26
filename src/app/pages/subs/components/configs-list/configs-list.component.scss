@@ -1,9 +1,13 @@
 :host {
   display: block;
 
+  border-radius: 1em 1em 0 0 ;
+  overflow: hidden;
+
   flex: 1;
 
-  tui-scrollbar, .viewport {
+  tui-scrollbar,
+  .viewport {
     height: 100%;
 
     div {
@@ -16,4 +20,3 @@
     width: 100%;
   }
 }
-

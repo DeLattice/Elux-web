@@ -1,6 +1,8 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, effect,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
   inject,
 } from "@angular/core";
 import {
@@ -15,8 +17,9 @@ import {
   TuiTextfieldDropdownDirective,
   TuiTextfieldOptionsDirective,
 } from "@taiga-ui/core";
-import {FormsModule} from "@angular/forms";
-import {DashboardStateService} from "@app/dashboard/dashboard.state";
+import { FormsModule } from "@angular/forms";
+import { DashboardStateService } from "@app/pages/dashboard/dashboard.state";
+import { SubsStateService } from "@app/pages/subs/subs.state";
 
 @Component({
   selector: "app-groups-select",
@@ -54,13 +57,13 @@ export class GroupsSelectComponent {
     });
   }
 
-  private readonly dashboardStateService = inject(DashboardStateService);
+  private readonly subsStateService = inject(SubsStateService);
 
-  protected readonly groups = this.dashboardStateService.groups;
+  protected readonly groups = this.subsStateService.groups;
   protected value: string | null = null;
 
   selectGroup(event: string) {
     this.value = event;
-    this.dashboardStateService.setActiveGroup = event;
+    this.subsStateService.setActiveGroup = event;
   }
 }

@@ -5,9 +5,8 @@ import {TuiBadge, TuiChevron} from '@taiga-ui/kit';
 import {TuiExpand} from '@taiga-ui/experimental';
 import {TuiTableDirective, TuiTableTd, TuiTableTh} from '@taiga-ui/addon-table';
 import {DecodeUrlPipe} from '@constructor/pipes/decode-url.pipe';
-import {XrayOutboundClientConfig} from '@app/dashboard/model/rdo/xray/outbound';
+import {XrayOutboundClientConfig} from '@app/pages/subs/model/rdo/xray/outbound';
 import {UpperCasePipe} from '@angular/common';
-import {TuiCopyProcessor} from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-config-card',

@@ -1,18 +1,17 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  effect,
   inject,
-  signal,
 } from "@angular/core";
-import {TuiScrollable, TuiScrollbar} from "@taiga-ui/core";
-import {DashboardService} from "../../dashboard.service";
-import {ScrollingModule} from "@angular/cdk/scrolling";
-import {ConfigCardComponent} from "./config-card/config-card.component";
-import {AsyncPipe} from "@angular/common";
-import {DashboardStateService} from "@app/dashboard/dashboard.state";
-import {map, of, switchMap} from "rxjs";
-import {toObservable} from "@angular/core/rxjs-interop";
+import { TuiScrollable, TuiScrollbar } from "@taiga-ui/core";
+import { ScrollingModule } from "@angular/cdk/scrolling";
+import { ConfigCardComponent } from "./config-card/config-card.component";
+import { AsyncPipe, JsonPipe } from "@angular/common";
+import { map, of, switchMap, tap } from "rxjs";
+import { toObservable } from "@angular/core/rxjs-interop";
+import { SubsService } from "../../subs.service";
+import { SubsStateService } from "../../subs.state";
 
 @Component({
   selector: "app-configs-list",
@@ -21,6 +20,7 @@ import {toObservable} from "@angular/core/rxjs-interop";
     TuiScrollable,
     ConfigCardComponent,
     AsyncPipe,
+    JsonPipe,
     ScrollingModule,
   ],
   templateUrl: "./configs-list.component.html",
@@ -28,11 +28,12 @@ import {toObservable} from "@angular/core/rxjs-interop";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigsListComponent {
-  private readonly dashboardService = inject(DashboardService);
-  private readonly dashboardStateService = inject(DashboardStateService);
+  private readonly subsService = inject(SubsService);
+  private readonly subsStateService = inject(SubsStateService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   protected readonly configs$ = toObservable(
-    this.dashboardStateService.selectedGroup,
+    this.subsStateService.selectedGroup,
   ).pipe(
     switchMap((selectedGroup) => {
       if (!selectedGroup) {
@@ -40,12 +41,11 @@ export class ConfigsListComponent {
         return of([]);
       }
 
-      return this.dashboardService.getConfigs(selectedGroup, {
+      return this.subsService.getConfigs(selectedGroup, {
         limit: 50,
         page: 0,
       });
     }),
-    // map((data) => chunkArrayInPairs(data))
   );
 }
 

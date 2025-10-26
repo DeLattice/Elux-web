@@ -1,4 +1,6 @@
-<tui-root>
+<tui-root
+  [attr.tuiTheme]="darkMode() ? 'dark' : null"
+>
   <app-navigation>
     <router-outlet/>
     <router-outlet name='header'/>
@@ -15,6 +17,3 @@
   <ng-container ngProjectAs="tuiOverHints">
   </ng-container>
 </tui-root>
-
-
-

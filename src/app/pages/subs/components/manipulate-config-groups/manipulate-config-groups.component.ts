@@ -1,21 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component, inject,
-} from "@angular/core";
-import {
-  TuiAlertService,
-  TuiButton,
-  tuiDialog, TuiDialogService,
-  TuiIcon,
-} from "@taiga-ui/core";
-import {DialogAddGroupComponent} from "./dialogs/dialog-add-group/dialog-add-group.component";
-import {GroupsSelectComponent} from "./groups-select/groups-select.component";
-import {DialogEditGroupComponent} from "./dialogs/dialog-edit-group/dialog-edit-group.component";
-import {DialogBackendService} from "./dialogs/dialog-backend.service";
-import {DashboardStateService} from '@app/dashboard/dashboard.state';
-import {
-  DialogDeleteGroupComponent
-} from '@app/dashboard/components/manipulate-config-groups/dialogs/dialog-delete-group/dialog-delete-group.component';
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { TuiButton, tuiDialog, TuiIcon } from "@taiga-ui/core";
+import { DialogAddGroupComponent } from "./dialogs/dialog-add-group/dialog-add-group.component";
+import { GroupsSelectComponent } from "./groups-select/groups-select.component";
+import { DialogEditGroupComponent } from "./dialogs/dialog-edit-group/dialog-edit-group.component";
+import { DialogBackendService } from "./dialogs/dialog-backend.service";
+import { DialogDeleteGroupComponent } from "@app/pages/subs/components/manipulate-config-groups/dialogs/dialog-delete-group/dialog-delete-group.component";
 
 @Component({
   selector: "app-manipulate-config-groups",
@@ -50,6 +39,6 @@ export class ManipulateConfigGroupsComponent {
   });
 
   protected showDialogDeleteGroup(): void {
-    this.dialogDeleteGroup().subscribe()
+    this.dialogDeleteGroup().subscribe();
   }
 }

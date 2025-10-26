@@ -8,7 +8,7 @@ import { XrayOutboundClientConfig } from "./model/rdo/xray/outbound";
 @Injectable({
   providedIn: "root",
 })
-export class DashboardService {
+export class SubsService {
   private readonly http = inject(HttpClient);
 
   getGroupNames(): Observable<string[]> {

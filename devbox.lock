@@ -1,0 +1,37 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "firejail@latest": {
+      "last_modified": "2025-10-07T08:41:47Z",
+      "resolved": "github:NixOS/nixpkgs/bce5fe2bb998488d8e7e7856315f90496723793c#firejail",
+      "source": "devbox-search",
+      "version": "0.9.74",
+      "systems": {
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/s0lpksymiddl0glj60amrv717j3k2vda-firejail-0.9.74",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/s0lpksymiddl0glj60amrv717j3k2vda-firejail-0.9.74"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2wr0sc45qmzcq5wksy5iiyild8p95y6l-firejail-0.9.74",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/2wr0sc45qmzcq5wksy5iiyild8p95y6l-firejail-0.9.74"
+        }
+      }
+    },
+    "github:NixOS/nixpkgs/nixpkgs-unstable": {
+      "last_modified": "2025-10-24T23:52:36Z",
+      "resolved": "github:NixOS/nixpkgs/02f2cb8e0feb4596d20cc52fda73ccee960e3538?lastModified=1761349956&narHash=sha256-tH3wHnOJms%2BU4k%2FrK2Nn1RfBrhffX92jLP%2F2VndSn0w%3D"
+    }
+  }
+}

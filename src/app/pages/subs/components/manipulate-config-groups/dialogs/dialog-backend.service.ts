@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GroupDto} from './model/dto/group.dto';
 import {Observable} from 'rxjs';
-import {XrayOutboundClientConfig} from '@app/dashboard/model/rdo/xray/outbound';
+import {XrayOutboundClientConfig} from '@app/pages/subs/model/rdo/xray/outbound';
 
 @Injectable()
 export class DialogBackendService {

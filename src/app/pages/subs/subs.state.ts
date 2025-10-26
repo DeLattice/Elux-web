@@ -1,14 +1,10 @@
 import {Injectable, signal, computed, inject} from "@angular/core";
-import {XrayOutboundClientConfig} from '@app/dashboard/model/rdo/xray/outbound';
-import {
-  ManipulateConfigGroupsService
-} from '@app/dashboard/components/manipulate-config-groups/manipulate-config-groups.service';
-import {DashboardService} from '@app/dashboard/dashboard.service';
+import { SubsService } from "./subs.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class DashboardStateService {
+export class SubsStateService {
   constructor() {
     this.init()
   }
@@ -33,10 +29,10 @@ export class DashboardStateService {
     this._groups.update(data => data.filter(item => item !== name));
   }
 
-  private readonly dashboardService = inject(DashboardService);
+  private readonly subsService = inject(SubsService);
 
   init() {
-    this.dashboardService.getGroupNames()
+    this.subsService.getGroupNames()
       .subscribe({
         next: (groups) => {
           this._groups.set(groups);

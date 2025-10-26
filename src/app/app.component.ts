@@ -1,5 +1,5 @@
-import { TuiRoot } from "@taiga-ui/core";
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import { TUI_DARK_MODE, TuiRoot } from "@taiga-ui/core";
+import {Component, inject} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {NavigationComponent} from './components/navigation/navigation.component';
 
@@ -10,4 +10,5 @@ import {NavigationComponent} from './components/navigation/navigation.component'
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  protected readonly darkMode = inject(TUI_DARK_MODE);
 }
