@@ -1,4 +1,4 @@
-<header #header tuiNavigationHeader>
+<header tuiNavigationHeader>
   <img alt="logotype" class="logo" height="32" ngSrc="assets/logo.webp" priority width="32"/>
 
   <span tuiNavigationLogo>
@@ -50,7 +50,6 @@
         [routerLinkActiveOptions]="{exact: true}"
         automation-id="setting"
         iconStart="@tui.settings"
-        routerLink="/settings"
         tuiAsideItem
         tuiChevron
         type="button"
@@ -59,25 +58,11 @@
 
         <ng-template>
           <button
-            routerLink="/ss"
+            routerLink="/settings/xray"
             tuiAsideItem
             type="button"
           >
-            Account
-          </button>
-          <button
-            routerLink="/ss"
-            tuiAsideItem
-            type="button"
-          >
-            Notifications
-          </button>
-          <button
-            routerLink="/ss"
-            tuiAsideItem
-            type="button"
-          >
-            Privacy
+            Xray
           </button>
         </ng-template>
       </button>

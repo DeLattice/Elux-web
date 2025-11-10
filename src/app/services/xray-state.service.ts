@@ -15,7 +15,7 @@ export class XrayStateService implements OnDestroy {
     this._xrayService.getOutbounds().subscribe((outbounds) => {
       const ids = outbounds
         .filter((config): config is XrayOutboundClientConfig & { tag: string } => config.tag !== undefined)
-        .map((config) => parseInt(config.tag.substring(9, config.tag.length)));
+        .map((config) => parseInt(config.tag));
 
       this._outbounds.set(ids);
     })

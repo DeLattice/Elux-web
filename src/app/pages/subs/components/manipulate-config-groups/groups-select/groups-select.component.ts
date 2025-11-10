@@ -36,21 +36,21 @@ export class GroupsSelectComponent {
     effect(() => {
       const currentGroups = this.groups();
 
-      if (currentGroups && currentGroups.length > 0) {
+      if (!this.value && currentGroups.length > 0) {
         this.selectGroup(currentGroups[currentGroups.length - 1]);
       }
+
+      this.cdr.markForCheck();
     });
   }
 
   protected stringify: TuiStringHandler<GroupRdo> = (item) => item.name;
 
   protected readonly groups = this._subsStateService.groups;
-  protected value = this._subsStateService.selectedGroup();
+  protected value: GroupRdo | null = this._subsStateService.activeGroup();
 
   selectGroup(event: GroupRdo) {
     this.value = event;
     this._subsStateService.setActiveGroup = event;
-
-    this.cdr.markForCheck();
   }
 }

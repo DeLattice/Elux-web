@@ -11,7 +11,7 @@ export class SubsStateService {
   }
 
   private readonly _selectedGroup = signal<GroupRdo | null>(null);
-  public readonly selectedGroup = computed(() => this._selectedGroup());
+  public readonly activeGroup = computed(() => this._selectedGroup());
 
   public set setActiveGroup(group: GroupRdo) {
     this._selectedGroup.set(group);

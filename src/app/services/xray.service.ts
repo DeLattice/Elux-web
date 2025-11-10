@@ -10,6 +10,14 @@ import {XrayOutboundClientConfig} from '@app/pages/subs/model/rdo/xray/outbound'
 export class XrayService {
   private readonly _http = inject(HttpClient);
 
+  public getXrayConfiguration() {
+    return this._http.get("/xray/config");
+  }
+
+  public applyXrayConfiguration(payload: any) {
+    return this._http.post("/xray/config", payload);
+  }
+
   public getStatus() {
     return this._http
       .get<boolean>("/xray")

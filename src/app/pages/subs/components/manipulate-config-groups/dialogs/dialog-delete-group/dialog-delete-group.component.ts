@@ -28,7 +28,7 @@ export class DialogDeleteGroupComponent {
   private readonly _subsStateService = inject(SubsStateService)
   private readonly _observer: Observer<void> = this.context.$implicit;
 
-  protected readonly selectedGroup = this._subsStateService.selectedGroup
+  protected readonly selectedGroup = this._subsStateService.activeGroup
 
   protected deleteGroup() {
     const group = this.selectedGroup()

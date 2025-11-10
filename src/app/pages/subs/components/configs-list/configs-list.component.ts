@@ -1,10 +1,9 @@
-import {ChangeDetectionStrategy, Component, inject, signal, TrackByFunction,} from "@angular/core";
+import {ChangeDetectionStrategy, Component, inject, signal, ViewChild,} from "@angular/core";
 import {TuiScrollable, TuiScrollbar} from "@taiga-ui/core";
-import {ScrollingModule} from "@angular/cdk/scrolling";
+import {CdkVirtualScrollViewport, ScrollingModule} from "@angular/cdk/scrolling";
 import {ConfigCardComponent} from "./config-card/config-card.component";
-import {AsyncPipe} from "@angular/common";
-import {of, switchMap} from "rxjs";
-import {toObservable} from "@angular/core/rxjs-interop";
+import {combineLatest, debounceTime, distinctUntilChanged, of, startWith, switchMap, tap} from "rxjs";
+import {takeUntilDestroyed, toObservable} from "@angular/core/rxjs-interop";
 import {SubsService} from "../../subs.service";
 import {SubsStateService} from "../../subs.state";
 import {XrayStateService} from '@app/services/xray-state.service';
@@ -13,58 +12,106 @@ import {UniqueXrayOutboundClientConfig} from '@app/pages/subs/model/rdo/xray/out
 @Component({
   selector: "app-configs-list",
   imports: [
+    ConfigCardComponent,
+    ScrollingModule,
     TuiScrollbar,
     TuiScrollable,
-    ConfigCardComponent,
-    AsyncPipe,
-    ScrollingModule,
   ],
   templateUrl: "./configs-list.component.html",
   styleUrl: "./configs-list.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigsListComponent {
+  @ViewChild(CdkVirtualScrollViewport) viewport!: CdkVirtualScrollViewport;
+
   private readonly _subsService = inject(SubsService);
   private readonly _subsStateService = inject(SubsStateService);
   private readonly _xrayStateService = inject(XrayStateService);
 
-  protected readonly configs$ = toObservable(
-    this._subsStateService.selectedGroup,
-  ).pipe(
-    switchMap((selectedGroup) => {
-      if (!selectedGroup) {
+  protected readonly currentPage = signal(0);
+  protected readonly limit = signal(100);
+  protected readonly isLoading = signal(false);
+  protected readonly allConfigsLoaded = signal(false);
+  protected readonly allConfigs = signal<UniqueXrayOutboundClientConfig[]>([]);
+  protected readonly outbound_ids = signal<Set<number>>(new Set<number>(this._xrayStateService.outbounds()));
+
+  private readonly activeGroup$ = toObservable(this._subsStateService.activeGroup).pipe(
+    distinctUntilChanged((prev, curr) => prev?.id === curr?.id)
+  );
+
+  private readonly loadMoreTrigger$ = toObservable(this.currentPage).pipe(
+    distinctUntilChanged()
+  );
+
+  private readonly configsLoadTrigger$ = combineLatest([
+    this.activeGroup$.pipe(
+      tap(() => {
+        this.allConfigs.set([]);
+        this.currentPage.set(0);
+        this.allConfigsLoaded.set(false);
+        this.viewport?.scrollToIndex(0);
+      })
+    ),
+    this.loadMoreTrigger$.pipe(startWith(0))
+  ]).pipe(
+    debounceTime(0),
+    switchMap(([selectedGroup, page]) => {
+      if (!selectedGroup || this.allConfigsLoaded()) {
         return of([]);
       }
 
-      return this._subsService.getConfigs(selectedGroup.id, {
-        limit: 50,
-        page: 0,
-      });
-    }),
-  );
+      this.isLoading.set(true);
+      const paginationParams = {limit: this.limit(), page: page};
 
-  trackByFn(
+      return this._subsService.getConfigs(selectedGroup.id, paginationParams).pipe(
+        tap((newConfigs) => {
+          this.isLoading.set(false);
+          if (newConfigs.length < this.limit()) {
+            this.allConfigsLoaded.set(true);
+          }
+
+          if (page === 0) {
+            this.allConfigs.set(newConfigs);
+          } else {
+            this.allConfigs.update(current => [...current, ...newConfigs]);
+          }
+        })
+      );
+    }),
+    takeUntilDestroyed()
+  ).subscribe();
+
+  protected loadMoreConfigs(): void {
+    if (this.isLoading() || this.allConfigsLoaded()) {
+      return;
+    }
+    this.currentPage.update(page => page + 1);
+  }
+
+  protected onVirtualScrollRendered(): void {
+    if (this.viewport && !this.isLoading() && !this.allConfigsLoaded()) {
+      const end = this.viewport.getRenderedRange().end;
+      const total = this.viewport.getDataLength();
+
+      if (total > 0 && end === total) {
+        this.loadMoreConfigs();
+      }
+    }
+  }
+
+  protected trackByFn(
     _index: number,
     item: UniqueXrayOutboundClientConfig,
   ): number {
     return item.id;
   }
 
-  protected readonly outbound_ids = signal<Set<number>>(new Set<number>(this._xrayStateService.outbounds()));
-
   protected onSelectConfigCard(id: number): void {
-    const ids = this.outbound_ids();
-
-    if (ids.delete(id)) {
-      this.outbound_ids.set(ids);
-
-      this._xrayStateService.outbounds.set(Array.from(this.outbound_ids()));
-
-      return;
+    const ids = new Set(this.outbound_ids());
+    if (!ids.delete(id)) {
+      ids.add(id);
     }
-
-    this.outbound_ids.update(data => data.add(id));
-
-    this._xrayStateService.outbounds.set(Array.from(this.outbound_ids()));
+    this.outbound_ids.set(ids);
+    this._xrayStateService.outbounds.set(Array.from(ids));
   }
 }

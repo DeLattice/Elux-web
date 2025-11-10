@@ -1,0 +1,25 @@
+:host {
+  display: block;
+
+  .node-container {
+    padding-left: 20px;
+    border-left: 1px solid var(--tui-base-03);
+  }
+
+  .node-item {
+    margin-bottom: 1rem;
+  }
+
+  .array-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    border: 1px solid var(--tui-base-03);
+    border-radius: var(--tui-radius-m);
+    margin-bottom: 1rem;
+
+    & > app-json-node {
+      flex-grow: 1;
+    }
+  }
+}

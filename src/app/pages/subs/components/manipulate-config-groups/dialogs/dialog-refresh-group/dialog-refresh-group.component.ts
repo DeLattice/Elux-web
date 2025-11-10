@@ -28,10 +28,10 @@ export class DialogRefreshGroupComponent {
   private readonly _subsStateService = inject(SubsStateService)
   private readonly _observer: Observer<void> = this.context.$implicit;
 
-  protected readonly selectedGroup = this._subsStateService.selectedGroup
+  protected readonly selectedGroup = this._subsStateService.activeGroup
 
   protected refreshGroup() {
-    const group = this._subsStateService.selectedGroup()
+    const group = this._subsStateService.activeGroup()
 
     if (!group) return
 

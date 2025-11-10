@@ -1,15 +1,15 @@
 <tui-scrollbar>
   <cdk-virtual-scroll-viewport
+    (scrolledIndexChange)="onVirtualScrollRendered()"
     [itemSize]="172"
     class="viewport tui-zero-scrollbar"
     tuiScrollable
   >
-    <div *cdkVirtualFor="let config of configs$ | async; index as idx; trackBy: trackByFn">
-      <app-config-card
-        (click)="onSelectConfigCard(config.id)"
-        [config]="config"
-        [isSelectedCard]="outbound_ids().has(config.id)"
-      />
-    </div>
+    <app-config-card
+      (click)="onSelectConfigCard(config.id)"
+      *cdkVirtualFor="let config of allConfigs(); index as idx; trackBy: trackByFn"
+      [config]="config"
+      [isSelectedCard]="outbound_ids().has(config.id)"
+    />
   </cdk-virtual-scroll-viewport>
 </tui-scrollbar>

@@ -1,7 +1,8 @@
-import { Routes } from "@angular/router";
-import { DashboardComponent } from "./pages/dashboard/dashboard.component";
-import { SubsComponent } from "./pages/subs/subs.component";
-import { SettingsComponent } from "./pages/settings/settings.component";
+import {Routes} from "@angular/router";
+import {DashboardComponent} from "./pages/dashboard/dashboard.component";
+import {SubsComponent} from "./pages/subs/subs.component";
+import {SettingsComponent} from "./pages/settings/settings.component";
+import {XrayComponent} from '@app/pages/settings/xray/xray.component';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,12 @@ export const routes: Routes = [
       {
         path: "settings",
         component: SettingsComponent,
+        children: [
+          {
+            path: "xray",
+            component: XrayComponent,
+          },
+        ]
       },
     ],
   },
