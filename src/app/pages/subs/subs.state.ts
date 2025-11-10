@@ -1,5 +1,6 @@
-import {Injectable, signal, computed, inject} from "@angular/core";
-import { SubsService } from "./subs.service";
+import {computed, inject, Injectable, signal} from "@angular/core";
+import {SubsService} from "./subs.service";
+import {GroupRdo} from '@app/pages/subs/model/rdo/group.rdo';
 
 @Injectable({
   providedIn: "root",
@@ -9,24 +10,22 @@ export class SubsStateService {
     this.init()
   }
 
-  private readonly _selectedGroup = signal<string | null>(null);
-
+  private readonly _selectedGroup = signal<GroupRdo | null>(null);
   public readonly selectedGroup = computed(() => this._selectedGroup());
 
-  public set setActiveGroup(value: string) {
-    this._selectedGroup.set(value);
+  public set setActiveGroup(group: GroupRdo) {
+    this._selectedGroup.set(group);
   }
 
-  private readonly _groups = signal<string[]>([]);
-
+  private readonly _groups = signal<GroupRdo[]>([]);
   public readonly groups = computed(() => this._groups());
 
-  public addGroup(name: string) {
-    this._groups.update(data => [...data, name]);
+  public addGroup(group: GroupRdo) {
+    this._groups.update(data => [...data, group]);
   }
 
-  public removeGroup(name: string) {
-    this._groups.update(data => data.filter(item => item !== name));
+  public removeGroup(group: GroupRdo) {
+    this._groups.update(data => data.filter(item => item.id !== group.id));
   }
 
   private readonly subsService = inject(SubsService);

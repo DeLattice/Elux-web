@@ -1,34 +1,22 @@
-import {KeyValuePipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
-import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {RouterLink, RouterLinkActive} from '@angular/router';
-import {tuiAsPortal, TuiItem, TuiPortals, TuiRepeatTimes} from '@taiga-ui/cdk';
+import { NgOptimizedImage } from "@angular/common";
+import { Component, inject, signal } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { RouterLink } from "@angular/router";
+import { TuiButton } from "@taiga-ui/core";
 import {
-  TuiAppearance,
-  TuiButton,
-  TuiDataList,
-  TuiDropdown,
-  TuiDropdownService,
-  TuiIcon,
-  TuiLink, TuiScrollbar,
-  TuiTextfield,
-  TuiTitle,
-} from '@taiga-ui/core';
-import {
-  TuiAvatar,
   TuiBadge,
   TuiBadgeNotification,
-  TuiBreadcrumbs,
   TuiChevron,
-  TuiDataListDropdownManager,
   TuiFade,
-  TuiSwitch, TuiTab,
+  TuiTab,
   TuiTabs,
-} from '@taiga-ui/kit';
-import {TuiCardLarge, TuiForm, TuiHeader, TuiNavigation} from '@taiga-ui/layout';
+} from "@taiga-ui/kit";
+import { TuiNavigation } from "@taiga-ui/layout";
+import { HeaderComponent } from "@app/components/navigation/header/header.component";
+import { XrayStateService } from "@app/services/xray-state.service";
 
 @Component({
-  selector: 'app-navigation',
+  selector: "app-navigation",
   imports: [
     FormsModule,
     TuiBadge,
@@ -41,13 +29,19 @@ import {TuiCardLarge, TuiForm, TuiHeader, TuiNavigation} from '@taiga-ui/layout'
     TuiTab,
     TuiTabs,
     RouterLink,
+    HeaderComponent,
   ],
-  templateUrl: './navigation.component.html',
-  styleUrl: './navigation.component.scss',
+  templateUrl: "./navigation.component.html",
+  styleUrl: "./navigation.component.scss",
 })
 export class NavigationComponent {
   protected expanded = signal(false);
-  protected readonly breadcrumbs = ['Home', 'Angular', 'Repositories', 'Taiga UI'];
+  protected readonly breadcrumbs = [
+    "Home",
+    "Angular",
+    "Repositories",
+    "Taiga UI",
+  ];
 
   protected handleToggle(): void {
     this.expanded.update((e) => !e);

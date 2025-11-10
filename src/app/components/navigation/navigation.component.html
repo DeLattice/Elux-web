@@ -1,135 +1,137 @@
-<header tuiNavigationHeader #header>
-		<img ngSrc="assets/logo.webp" class="logo" alt="logotype" width="32" height="32" priority/>
+<header #header tuiNavigationHeader>
+  <img alt="logotype" class="logo" height="32" ngSrc="assets/logo.webp" priority width="32"/>
 
-		<span tuiNavigationLogo>
+  <span tuiNavigationLogo>
 									<span tuiFade>Luxnulla</span>
 									<tui-badge>v0.1</tui-badge>
 		</span>
 
-		<hr/>
+  <hr/>
 
-		<button
-				iconStart="@tui.bell"
-				tuiIconButton
-				type="button"
-		>
-				Notifications
-				<tui-badge-notification/>
-		</button>
+  <button
+    iconStart="@tui.bell"
+    tuiIconButton
+    type="button"
+  >
+    Notifications
+    <tui-badge-notification/>
+  </button>
 </header>
 
 <div [style.display]="'flex'">
-		<aside
-				[style.height]="'calc(100vh - 48px)'"
-				[tuiNavigationAside]="expanded()"
-		>
-				<header>
-						<button
-								iconStart="@tui.home"
-								tuiAsideItem
-								type="button"
-								[routerLinkActiveOptions]="{exact: true}"
-								routerLink="/"
-						>
-								<span tuiFade>Dashboard</span>
-						</button>
+  <aside
+    [style.height]="'calc(100vh - 48px)'"
+    [tuiNavigationAside]="expanded()"
+  >
+    <header>
+      <button
+        [routerLinkActiveOptions]="{exact: true}"
+        iconStart="@tui.home"
+        routerLink="/"
+        tuiAsideItem
+        type="button"
+      >
+        <span tuiFade>Dashboard</span>
+      </button>
 
-						<button
-								iconStart="@tui.boxes"
-								tuiAsideItem
-								type="button"
-								[routerLinkActiveOptions]="{exact: true}"
-								routerLink="/subs"
-						>
-								<span tuiFade>Subs</span>
-						</button>
-				</header>
+      <button
+        [routerLinkActiveOptions]="{exact: true}"
+        iconStart="@tui.boxes"
+        routerLink="/subs"
+        tuiAsideItem
+        type="button"
+      >
+        <span tuiFade>Subs</span>
+      </button>
+    </header>
 
-				<tui-aside-group>
-						<button
-								automation-id="setting"
-								iconStart="@tui.settings"
-								tuiAsideItem
-								tuiChevron
-								[routerLinkActiveOptions]="{exact: true}"
-								routerLink="/settings"
-								type="button"
-						>
-								Settings
+    <tui-aside-group>
+      <button
+        [routerLinkActiveOptions]="{exact: true}"
+        automation-id="setting"
+        iconStart="@tui.settings"
+        routerLink="/settings"
+        tuiAsideItem
+        tuiChevron
+        type="button"
+      >
+        Settings
 
-								<ng-template>
-										<button
-												tuiAsideItem
-												type="button"
-												routerLink="/ss"
-										>
-												Account
-										</button>
-										<button
-												tuiAsideItem
-												type="button"
-												routerLink="/ss"
-										>
-												Notifications
-										</button>
-										<button
-												tuiAsideItem
-												type="button"
-												routerLink="/ss"
-										>
-												Privacy
-										</button>
-								</ng-template>
-						</button>
-				</tui-aside-group>
+        <ng-template>
+          <button
+            routerLink="/ss"
+            tuiAsideItem
+            type="button"
+          >
+            Account
+          </button>
+          <button
+            routerLink="/ss"
+            tuiAsideItem
+            type="button"
+          >
+            Notifications
+          </button>
+          <button
+            routerLink="/ss"
+            tuiAsideItem
+            type="button"
+          >
+            Privacy
+          </button>
+        </ng-template>
+      </button>
+    </tui-aside-group>
 
-				<button
-						automation-id="hint"
-						iconStart="@tui.heart"
-						tuiAsideItem
-						type="button"
-				>
-						<span tuiFade>By default ellipsis is used but you can use fade too</span>
-				</button>
+    <button
+      automation-id="hint"
+      iconStart="@tui.heart"
+      tuiAsideItem
+      type="button"
+    >
+      <span tuiFade>By default ellipsis is used but you can use fade too</span>
+    </button>
 
-				<hr/>
-				<button
-						iconStart="@tui.plus"
-						tuiAsideItem
-						type="button"
-				>
-						Add
-				</button>
-				<footer>
-						<button
-								iconStart="@tui.star"
-								tuiAsideItem
-								type="button"
-						>
-								Favorites
-						</button>
-						<button
-								tuiAsideItem
-								type="button"
-								[iconStart]="expanded() ? '@tui.chevron-left' : '@tui.chevron-right'"
-								(click)="handleToggle()"
-						>
-								{{ expanded() ? 'Collapse' : 'Expand' }}
-						</button>
-				</footer>
-		</aside>
+    <hr/>
+    <button
+      iconStart="@tui.plus"
+      tuiAsideItem
+      type="button"
+    >
+      Add
+    </button>
+    <footer>
+      <button
+        iconStart="@tui.star"
+        tuiAsideItem
+        type="button"
+      >
+        Favorites
+      </button>
+      <button
+        (click)="handleToggle()"
+        [iconStart]="expanded() ? '@tui.chevron-left' : '@tui.chevron-right'"
+        tuiAsideItem
+        type="button"
+      >
+        {{ expanded() ? 'Collapse' : 'Expand' }}
+      </button>
+    </footer>
+  </aside>
 
-		<main>
-				<nav
-						compact
-						tuiSubheader
-						[style.position]="'sticky'"
-				>
-						<ng-content select="[name]"/>
-				</nav>
+  <main>
+    <nav
+      [style.margin]="'0.5rem 0'"
+      [style.position]="'sticky'"
+      tuiSubheader
+    >
+      <app-header/>
+    </nav>
 
-				<div>
-						<ng-content/>
-				</div>
-		</main>
+    <hr>
+
+    <div>
+      <ng-content/>
+    </div>
+  </main>
 </div>

@@ -81,5 +81,11 @@ export interface XrayOutboundClientConfig {
   settings: Settings;
   streamSettings: StreamSettings;
   mux?: MuxSettings;
-  nameClient?: string;
+  extra?: {
+    clientName: string
+  }
+}
+
+export interface UniqueXrayOutboundClientConfig extends XrayOutboundClientConfig {
+  id: number;
 }

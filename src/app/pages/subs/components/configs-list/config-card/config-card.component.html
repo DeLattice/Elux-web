@@ -1,22 +1,25 @@
-@let nameClient = config().nameClient;
+@let clientName = config().extra?.clientName;
 
 <section
-  tuiCardLarge="compact"
+  [class.selected]="isSelectedCard()"
+  [style.margin-block-end.em]="0"
   [tuiCardCollapsed]="collapsed()"
+  tuiCardLarge="compact"
 >
   <header tuiHeader="body-m">
     <hgroup tuiTitle>
       <h2>
-        {{ (nameClient ? nameClient : 'None') | decodeUrl }}
+        {{ (clientName ? clientName : 'None') | decodeUrl }}
       </h2>
     </hgroup>
     <aside tuiAccessories>
       <button
-        tuiButton
+        (click)="$event.stopPropagation(); onCopy()"
         appearance="secondary"
+        tuiButton
         type="button"
       >
-        <tui-icon icon="@tui.copy" />
+        <tui-icon icon="@tui.copy"/>
       </button>
     </aside>
   </header>
@@ -24,61 +27,72 @@
   <div tuiCardRow>
     <div class="t-row">
       <div tuiTitle>
-        <div tuiSubtitle>Status</div>
-        <div>
+        <div tuiSubtitle>
           <tui-icon icon="@tui.clock"/>
+          Status
+        </div>
+
+        <div>
           Pending
         </div>
       </div>
 
       <div tuiTitle>
-        <div tuiSubtitle>Protocol</div>
+        <div tuiSubtitle>
+          <tui-icon icon="@tui.handshake"/>
+          Protocol
+        </div>
+
         <p>
           {{ config().protocol | uppercase }}
         </p>
       </div>
 
       <div tuiTitle>
-        <div tuiSubtitle>Transport</div>
+        <div tuiSubtitle>
+          <tui-icon icon="@tui.arrow-up-down"/>
+          Transport
+        </div>
+
         <p>
           {{ config().streamSettings.transport | uppercase }}
         </p>
       </div>
+
+      <div tuiTitle>
+        <div tuiSubtitle>
+          <tui-icon icon="@tui.network"/>
+          Ip | Domain
+        </div>
+        <div>
+          {{ configIp | uppercase }}
+        </div>
+      </div>
+
+      <div tuiTitle>
+        <div tuiSubtitle>
+          <tui-icon icon="@tui.ethernet-port"/>
+          Port
+        </div>
+        <div>
+          {{ configPort | uppercase }}
+        </div>
+      </div>
     </div>
 
     <button
+      (click)="$event.stopPropagation(); collapsed.set(!collapsed())"
+      [tuiChevron]="!collapsed()"
       appearance="secondary"
       size="s"
       tuiIconButton
       type="button"
-      [tuiChevron]="!collapsed()"
-      (click)="collapsed.set(!collapsed())"
     >
       Expand
     </button>
   </div>
 
   <tui-expand [expanded]="!collapsed()">
-    <table tuiTable>
-      <thead>
-      <tr>
-        <th tuiTh>Project</th>
-        <th tuiTh>Version</th>
-        <th tuiTh>Description</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td tuiTd><b>Taiga UI</b></td>
-        <td tuiTd>4.32.0</td>
-        <td tuiTd>Angular UI kit for awesome people</td>
-      </tr>
-      <tr>
-        <td tuiTd><b>Maskito</b></td>
-        <td tuiTd>3.5.0</td>
-        <td tuiTd>Holy Grail of input masking for the Web</td>
-      </tr>
-      </tbody>
-    </table>
+    statistics
   </tui-expand>
 </section>

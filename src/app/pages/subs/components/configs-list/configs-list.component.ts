@@ -1,17 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-} from "@angular/core";
-import { TuiScrollable, TuiScrollbar } from "@taiga-ui/core";
-import { ScrollingModule } from "@angular/cdk/scrolling";
-import { ConfigCardComponent } from "./config-card/config-card.component";
-import { AsyncPipe, JsonPipe } from "@angular/common";
-import { map, of, switchMap, tap } from "rxjs";
-import { toObservable } from "@angular/core/rxjs-interop";
-import { SubsService } from "../../subs.service";
-import { SubsStateService } from "../../subs.state";
+import {ChangeDetectionStrategy, Component, inject, signal, TrackByFunction,} from "@angular/core";
+import {TuiScrollable, TuiScrollbar} from "@taiga-ui/core";
+import {ScrollingModule} from "@angular/cdk/scrolling";
+import {ConfigCardComponent} from "./config-card/config-card.component";
+import {AsyncPipe} from "@angular/common";
+import {of, switchMap} from "rxjs";
+import {toObservable} from "@angular/core/rxjs-interop";
+import {SubsService} from "../../subs.service";
+import {SubsStateService} from "../../subs.state";
+import {XrayStateService} from '@app/services/xray-state.service';
+import {UniqueXrayOutboundClientConfig} from '@app/pages/subs/model/rdo/xray/outbound';
 
 @Component({
   selector: "app-configs-list",
@@ -20,7 +17,6 @@ import { SubsStateService } from "../../subs.state";
     TuiScrollable,
     ConfigCardComponent,
     AsyncPipe,
-    JsonPipe,
     ScrollingModule,
   ],
   templateUrl: "./configs-list.component.html",
@@ -28,39 +24,47 @@ import { SubsStateService } from "../../subs.state";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigsListComponent {
-  private readonly subsService = inject(SubsService);
-  private readonly subsStateService = inject(SubsStateService);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly _subsService = inject(SubsService);
+  private readonly _subsStateService = inject(SubsStateService);
+  private readonly _xrayStateService = inject(XrayStateService);
 
   protected readonly configs$ = toObservable(
-    this.subsStateService.selectedGroup,
+    this._subsStateService.selectedGroup,
   ).pipe(
     switchMap((selectedGroup) => {
       if (!selectedGroup) {
-        console.warn("No group selected");
         return of([]);
       }
 
-      return this.subsService.getConfigs(selectedGroup, {
+      return this._subsService.getConfigs(selectedGroup.id, {
         limit: 50,
         page: 0,
       });
     }),
   );
-}
 
-function chunkArrayInPairs<T>(arr: T[]): T[][] {
-  const result: T[][] = [];
-
-  for (let i = 0; i < arr.length; i += 2) {
-    const pair: T[] = [arr[i]];
-
-    if (i + 1 < arr.length) {
-      pair.push(arr[i + 1]);
-    }
-
-    result.push(pair);
+  trackByFn(
+    _index: number,
+    item: UniqueXrayOutboundClientConfig,
+  ): number {
+    return item.id;
   }
 
-  return result;
+  protected readonly outbound_ids = signal<Set<number>>(new Set<number>(this._xrayStateService.outbounds()));
+
+  protected onSelectConfigCard(id: number): void {
+    const ids = this.outbound_ids();
+
+    if (ids.delete(id)) {
+      this.outbound_ids.set(ids);
+
+      this._xrayStateService.outbounds.set(Array.from(this.outbound_ids()));
+
+      return;
+    }
+
+    this.outbound_ids.update(data => data.add(id));
+
+    this._xrayStateService.outbounds.set(Array.from(this.outbound_ids()));
+  }
 }

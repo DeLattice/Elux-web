@@ -9,7 +9,7 @@ import {TuiDialogContext} from '@taiga-ui/experimental';
 import {SubsStateService} from '@app/pages/subs/subs.state';
 
 @Component({
-  selector: 'app-dialog-delete-group',
+  selector: 'app-dialog-add-group',
   imports: [
     ReactiveFormsModule,
     FormsModule,
@@ -17,11 +17,11 @@ import {SubsStateService} from '@app/pages/subs/subs.state';
     TuiForm,
     TuiHeader,
   ],
-  templateUrl: './dialog-delete-group.component.html',
-  styleUrl: './dialog-delete-group.component.scss',
+  templateUrl: './dialog-refresh-group.component.html',
+  styleUrl: './dialog-refresh-group.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogDeleteGroupComponent {
+export class DialogRefreshGroupComponent {
   public readonly context = injectContext<TuiDialogContext<void, string>>();
 
   private readonly _dialogBackendService = inject(DialogBackendService)
@@ -30,17 +30,20 @@ export class DialogDeleteGroupComponent {
 
   protected readonly selectedGroup = this._subsStateService.selectedGroup
 
-  protected deleteGroup() {
-    const group = this.selectedGroup()
+  protected refreshGroup() {
+    const group = this._subsStateService.selectedGroup()
 
     if (!group) return
 
-    this._dialogBackendService.deleteGroup(group.id).subscribe({
-      complete: () => {
-        this._subsStateService.removeGroup(group)
-        this._observer.complete();
-      }
-    })
+    alert('TODO! refresh')
+
+    //
+    // this._dialogBackendService.deleteGroup(group.id).subscribe({
+    //   complete: () => {
+    //     this._subsStateService.removeGroup(group)
+    //     this._observer.complete();
+    //   }
+    // })
   }
 
   protected cancel() {

@@ -1,9 +1,10 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { inject } from "@angular/core/primitives/di";
-import { Observable } from "rxjs";
-import { PaginationParams } from "@app/constructor/types/pagination-params";
-import { XrayOutboundClientConfig } from "./model/rdo/xray/outbound";
+import {HttpClient} from "@angular/common/http";
+import {Injectable} from "@angular/core";
+import {inject} from "@angular/core/primitives/di";
+import {Observable} from "rxjs";
+import {PaginationParams} from "@app/constructor/types/pagination-params";
+import {UniqueXrayOutboundClientConfig} from "./model/rdo/xray/outbound";
+import {GroupRdo} from '@app/pages/subs/model/rdo/group.rdo';
 
 @Injectable({
   providedIn: "root",
@@ -11,19 +12,19 @@ import { XrayOutboundClientConfig } from "./model/rdo/xray/outbound";
 export class SubsService {
   private readonly http = inject(HttpClient);
 
-  getGroupNames(): Observable<string[]> {
-    return this.http.get<string[]>('groups');
+  getGroupNames(): Observable<GroupRdo[]> {
+    return this.http.get<GroupRdo[]>('groups');
   }
 
   getConfigs(
-    group: string,
-    params: PaginationParams,
-  ): Observable<XrayOutboundClientConfig[]> {
-    return this.http.get<XrayOutboundClientConfig[]>(`/groups/${group}/configs`, {
-      params: {
-        limit: 100,
-        page: 0,
-      },
+    groupId: number,
+    prms: PaginationParams = {
+      limit: 100,
+      page: 0,
+    },
+  ): Observable<UniqueXrayOutboundClientConfig[]> {
+    return this.http.get<UniqueXrayOutboundClientConfig[]>(`/groups/${groupId}/configs`, {
+      params: {...prms}
     });
   }
 }

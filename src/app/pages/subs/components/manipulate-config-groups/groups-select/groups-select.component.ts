@@ -1,25 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  effect,
-  inject,
-} from "@angular/core";
-import {
-  TuiChevron,
-  TuiDataListWrapperComponent,
-  TuiSelectDirective,
-  TuiTooltip,
-} from "@taiga-ui/kit";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject,} from "@angular/core";
+import {TuiChevron, TuiDataListWrapperComponent, TuiSelectDirective, TuiTooltip,} from "@taiga-ui/kit";
 import {
   TuiIcon,
   TuiTextfieldComponent,
   TuiTextfieldDropdownDirective,
   TuiTextfieldOptionsDirective,
 } from "@taiga-ui/core";
-import { FormsModule } from "@angular/forms";
-import { DashboardStateService } from "@app/pages/dashboard/dashboard.state";
-import { SubsStateService } from "@app/pages/subs/subs.state";
+import {FormsModule} from "@angular/forms";
+import {SubsStateService} from "@app/pages/subs/subs.state";
+import {GroupRdo} from '@app/pages/subs/model/rdo/group.rdo';
+import {TuiStringHandler} from '@taiga-ui/cdk';
 
 @Component({
   selector: "app-groups-select",
@@ -40,30 +30,27 @@ import { SubsStateService } from "@app/pages/subs/subs.state";
 })
 export class GroupsSelectComponent {
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly _subsStateService = inject(SubsStateService);
 
   constructor() {
     effect(() => {
       const currentGroups = this.groups();
 
-      if (this.value && currentGroups && currentGroups.length > 0) {
+      if (currentGroups && currentGroups.length > 0) {
         this.selectGroup(currentGroups[currentGroups.length - 1]);
       }
-
-      if (!this.value && currentGroups && currentGroups.length > 0) {
-        this.selectGroup(currentGroups[currentGroups.length - 1]);
-      }
-
-      this.cdr.markForCheck();
     });
   }
 
-  private readonly subsStateService = inject(SubsStateService);
+  protected stringify: TuiStringHandler<GroupRdo> = (item) => item.name;
 
-  protected readonly groups = this.subsStateService.groups;
-  protected value: string | null = null;
+  protected readonly groups = this._subsStateService.groups;
+  protected value = this._subsStateService.selectedGroup();
 
-  selectGroup(event: string) {
+  selectGroup(event: GroupRdo) {
     this.value = event;
-    this.subsStateService.setActiveGroup = event;
+    this._subsStateService.setActiveGroup = event;
+
+    this.cdr.markForCheck();
   }
 }

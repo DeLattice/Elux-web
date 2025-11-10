@@ -1,20 +1,22 @@
 <tui-textfield
+  [stringify]="stringify"
+  [tuiTextfieldCleaner]="false"
   iconStart="@tui.boxes"
   tuiChevron
   tuiTextfieldSize="m"
-  [tuiTextfieldCleaner]="false"
 >
   <input
-    placeholder="Select a group"
-    tuiSelect
     (ngModelChange)="selectGroup($event)"
     [(ngModel)]="value"
+    placeholder="Select a group"
+    tuiSelect
   />
 
   <tui-data-list-wrapper
     *tuiTextfieldDropdown
-    new
     [items]="groups()"
+
+    new
   />
 
   <tui-icon tuiTooltip="This is a list of available groups. The groups contain configs"/>

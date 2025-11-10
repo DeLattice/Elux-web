@@ -32,7 +32,6 @@ import {TuiForm} from '@taiga-ui/layout';
 })
 export class DialogEditGroupComponent {
   protected readonly form = new FormGroup({
-    name: new FormControl('',),
     payload: new FormControl(''),
   });
 }

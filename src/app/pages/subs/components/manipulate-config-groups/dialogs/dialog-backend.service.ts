@@ -1,8 +1,19 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {GroupDto} from './model/dto/group.dto';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {XrayOutboundClientConfig} from '@app/pages/subs/model/rdo/xray/outbound';
+
+interface CreateGroupDto {
+  name: string;
+  configs: string[];
+}
+
+interface CreateGroupRdo {
+  id: number,
+  name: string,
+  configs: XrayOutboundClientConfig[],
+}
+
 
 @Injectable()
 export class DialogBackendService {
@@ -12,15 +23,15 @@ export class DialogBackendService {
     return this.http.get(`/groups`);
   }
 
-  createGroup(name: string, payload: string): Observable<XrayOutboundClientConfig[]> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.post<XrayOutboundClientConfig[]>(`groups/${name}`, JSON.stringify(payload), {headers});
+  createGroup(payload: CreateGroupDto): Observable<CreateGroupRdo> {
+    return this.http.post<CreateGroupRdo>(`groups`, payload);
   }
 
-  deleteGroup(name: string) {
-    return this.http.delete(`groups/${name}`);
+  deleteGroup(id: number) {
+    return this.http.delete(`groups/${id}`);
+  }
+
+  refreshGroup(id: number) {
+    return this.http.delete(`groups/${id}`);
   }
 }

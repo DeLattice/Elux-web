@@ -1,20 +1,20 @@
 <form tuiForm>
   <header tuiHeader>
-    <p>Deleting a group <strong>{{ selectedGroup()?.name }}</strong></p>
+    <p>Update group <strong>{{ selectedGroup()?.name }}</strong></p>
   </header>
   <footer>
     <button
+      (click)="cancel()"
       appearance="secondary"
       size="m"
       tuiButton
       type="button"
-      (click)="cancel()"
     >
       No
     </button>
 
     <button
-      (click)="deleteGroup()"
+      (click)="refreshGroup()"
       size="m"
       tuiButton
       type="submit"
