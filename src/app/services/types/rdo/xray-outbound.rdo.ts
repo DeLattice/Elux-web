@@ -61,7 +61,7 @@ export interface User {
 }
 
 export interface StreamSettings {
-  transport?: string;
+  network?: string;
   security?: string;
   grpc?: GRPCSettings;
   reality?: RealitySettings;

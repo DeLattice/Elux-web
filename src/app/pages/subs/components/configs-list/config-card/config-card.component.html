@@ -12,6 +12,7 @@
         {{ (clientName ? clientName : 'None') | decodeUrl }}
       </h2>
     </hgroup>
+
     <aside tuiAccessories>
       <button
         (click)="$event.stopPropagation(); onCopy()"
@@ -51,11 +52,11 @@
       <div tuiTitle>
         <div tuiSubtitle>
           <tui-icon icon="@tui.arrow-up-down"/>
-          Transport
+          Network
         </div>
 
         <p>
-          {{ config().streamSettings.transport | uppercase }}
+          {{ config().streamSettings.network | uppercase }}
         </p>
       </div>
 
@@ -78,6 +79,19 @@
           {{ configPort | uppercase }}
         </div>
       </div>
+
+      @if (configFlow) {
+        <div tuiTitle>
+          <div tuiSubtitle>
+            <tui-icon icon="@tui.key-round"/>
+            Flow
+          </div>
+
+          <p>
+            {{ configFlow | uppercase }}
+          </p>
+        </div>
+      }
     </div>
 
     <button

@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, inject, input, signal,} from "@angul
 import {TuiCardCollapsed, TuiCardLarge, TuiCardRow, TuiHeader,} from "@taiga-ui/layout";
 import {TuiAlertService, TuiButton, TuiIcon, TuiTitle} from "@taiga-ui/core";
 import {TuiExpand} from "@taiga-ui/experimental";
-import {TuiTableDirective, TuiTableTd, TuiTableTh,} from "@taiga-ui/addon-table";
 import {DecodeUrlPipe} from "@constructor/pipes/decode-url.pipe";
 import {XrayOutboundClientConfig} from "@app/services/types/rdo/xray-outbound.rdo";
 import {UpperCasePipe} from "@angular/common";
@@ -20,9 +19,6 @@ import {TuiChevron} from '@taiga-ui/kit';
     TuiIcon,
     TuiButton,
     TuiExpand,
-    TuiTableDirective,
-    TuiTableTh,
-    TuiTableTd,
     UpperCasePipe,
     TuiChevron,
 
@@ -61,7 +57,7 @@ export class ConfigCardComponent {
     return 'Is not defined'
   }
 
-  protected get configPort():  string {
+  protected get configPort(): string {
     //vless
     const vnext = this.config().settings.vnext
 
@@ -77,6 +73,17 @@ export class ConfigCardComponent {
     }
 
     return 'Is not defined'
+  }
+
+
+  protected get configFlow(): string | undefined {
+    const vnext = this.config().settings.vnext
+
+    if (vnext) {
+      return vnext[0].users[0].flow
+    }
+
+    return undefined
   }
 
   protected onCopy(): void {
