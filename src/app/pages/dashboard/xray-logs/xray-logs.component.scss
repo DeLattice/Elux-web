@@ -1,0 +1,27 @@
+:host {
+  display: block;
+
+  height: 100%;
+
+  tui-scrollbar,
+  .viewport {
+    height: 20em;
+
+    div {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  .cdk-virtual-scroll-viewport {
+    height: 100%;
+    width: 100%;
+
+    .cdk-virtual-scroll-content-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      padding: 1em;
+    }
+  }
+}

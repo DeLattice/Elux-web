@@ -7,7 +7,7 @@ import {takeUntilDestroyed, toObservable} from "@angular/core/rxjs-interop";
 import {SubsService} from "../../subs.service";
 import {SubsStateService} from "../../subs.state";
 import {XrayStateService} from '@app/services/xray-state.service';
-import {UniqueXrayOutboundClientConfig} from '@app/pages/subs/model/rdo/xray/outbound';
+import {UniqueXrayOutboundClientConfig} from '@app/services/types/rdo/xray-outbound.rdo';
 
 @Component({
   selector: "app-configs-list",
@@ -63,7 +63,7 @@ export class ConfigsListComponent {
       this.isLoading.set(true);
       const paginationParams = {limit: this.limit(), page: page};
 
-      return this._subsService.getConfigs(selectedGroup.id, paginationParams).pipe(
+      return this._subsService.getGroupConfigs(selectedGroup.id, paginationParams).pipe(
         tap((newConfigs) => {
           this.isLoading.set(false);
           if (newConfigs.length < this.limit()) {

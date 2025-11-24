@@ -4,7 +4,7 @@ import {TuiAlertService, TuiButton, TuiIcon, TuiTitle} from "@taiga-ui/core";
 import {TuiExpand} from "@taiga-ui/experimental";
 import {TuiTableDirective, TuiTableTd, TuiTableTh,} from "@taiga-ui/addon-table";
 import {DecodeUrlPipe} from "@constructor/pipes/decode-url.pipe";
-import {XrayOutboundClientConfig} from "@app/pages/subs/model/rdo/xray/outbound";
+import {XrayOutboundClientConfig} from "@app/services/types/rdo/xray-outbound.rdo";
 import {UpperCasePipe} from "@angular/common";
 import {TuiChevron} from '@taiga-ui/kit';
 

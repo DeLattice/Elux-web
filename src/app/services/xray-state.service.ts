@@ -2,7 +2,7 @@ import {computed, inject, Injectable, OnDestroy, signal} from '@angular/core';
 import {BehaviorSubject, Observable, skip} from 'rxjs';
 import {XrayStatus} from '@app/services/types/enum/xray-status.enum';
 import {XrayService} from '@app/services/xray.service';
-import {XrayOutboundClientConfig} from '@app/pages/subs/model/rdo/xray/outbound';
+import {XrayOutboundClientConfig} from '@app/services/types/rdo/xray-outbound.rdo';
 import {toObservable} from '@angular/core/rxjs-interop';
 
 @Injectable({

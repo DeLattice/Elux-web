@@ -31,7 +31,7 @@ export class SubsStateService {
   private readonly subsService = inject(SubsService);
 
   init() {
-    this.subsService.getGroupNames()
+    this.subsService.getGroups()
       .subscribe({
         next: (groups) => {
           this._groups.set(groups);

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TuiButton, TuiIcon, TuiNotification, TuiTextfield, TuiTitle} from '@taiga-ui/core';
 import {TuiTooltip} from '@taiga-ui/kit';
@@ -8,6 +8,9 @@ import {injectContext} from '@taiga-ui/polymorpheus';
 import {Observer, Subscription} from 'rxjs';
 import {TuiDialogContext} from '@taiga-ui/experimental';
 import {SubsStateService} from '@app/pages/subs/subs.state';
+import {
+  FieldManagerService
+} from '@app/pages/subs/components/manipulate-config-groups/dialogs/services/field-manager.service';
 
 @Component({
   selector: 'app-dialog-add-group',
@@ -26,16 +29,19 @@ import {SubsStateService} from '@app/pages/subs/subs.state';
   styleUrl: './dialog-add-group.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogAddGroupComponent {
-  private readonly dialogBackendService = inject(DialogBackendService)
-  private readonly subsStateService = inject(SubsStateService)
+export class DialogAddGroupComponent implements OnDestroy {
   public readonly context = injectContext<TuiDialogContext<void, string>>();
+
+  private readonly _dialogBackendService = inject(DialogBackendService)
+  private readonly _subsStateService = inject(SubsStateService)
+  private readonly _fieldManagerService = inject(FieldManagerService)
   private readonly observer: Observer<void> = this.context.$implicit;
 
   private readonly subscriptions = new Subscription();
 
   protected readonly form = new FormGroup({
     name: new FormControl('', Validators.required),
+    subUrl: new FormControl(''),
     payload: new FormArray([
       new FormControl('', [Validators.required]),
     ], Validators.required),
@@ -48,7 +54,7 @@ export class DialogAddGroupComponent {
   constructor() {
     this.subscriptions.add(
       this.payload.valueChanges.subscribe(() => {
-        this.checkAndAddEmptyField();
+        this._fieldManagerService.checkAndAddEmptyField(this.payload);
       })
     );
   }
@@ -65,28 +71,7 @@ export class DialogAddGroupComponent {
       }
     }
 
-    this.checkAndAddEmptyField();
-  }
-
-  private checkAndAddEmptyField(): void {
-    const controls = this.payload.controls;
-    const lastIndex = controls.length - 1;
-
-    if (lastIndex < 0) {
-      this.payload.push(new FormControl('', [Validators.required]));
-      return;
-    }
-
-    const lastControl = controls[lastIndex];
-    const lastValue = lastControl.value;
-
-    if (lastValue && lastControl.valid) {
-      const trimmedValue = lastValue.trim();
-
-      if (trimmedValue !== '') {
-        this.payload.push(new FormControl('', [Validators.required]));
-      }
-    }
+    this._fieldManagerService.checkAndAddEmptyField(this.payload);
   }
 
   ngOnDestroy(): void {
@@ -101,14 +86,15 @@ export class DialogAddGroupComponent {
 
     if (!name || configs.length === 0) return
 
-    this.dialogBackendService.createGroup({
+    this._dialogBackendService.createGroup({
       name,
       configs
     }).subscribe({
       next: (data) => {
-        this.subsStateService.addGroup({
+        this._subsStateService.addGroup({
           id: data.id,
           name: data.name,
+          subUrl: data.subUrl
         });
         this.observer.complete();
       }

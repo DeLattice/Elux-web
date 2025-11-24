@@ -8,8 +8,8 @@ import {
 } from "@taiga-ui/core";
 import {FormsModule} from "@angular/forms";
 import {SubsStateService} from "@app/pages/subs/subs.state";
-import {GroupRdo} from '@app/pages/subs/model/rdo/group.rdo';
 import {TuiStringHandler} from '@taiga-ui/cdk';
+import {GroupRdo} from '@app/pages/subs/model/rdo/group.rdo';
 
 @Component({
   selector: "app-groups-select",

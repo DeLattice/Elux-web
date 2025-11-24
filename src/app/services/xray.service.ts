@@ -2,7 +2,8 @@ import {HttpClient} from "@angular/common/http";
 import {inject, Injectable} from "@angular/core";
 import {map} from "rxjs";
 import {XrayStatus} from "@app/services/types/enum/xray-status.enum";
-import {XrayOutboundClientConfig} from '@app/pages/subs/model/rdo/xray/outbound';
+import {XrayOutboundClientConfig} from '@app/services/types/rdo/xray-outbound.rdo';
+import {XrayConfigurationDto} from '@app/services/types/dto/xray-configuration.dto';
 
 @Injectable({
   providedIn: "root",
@@ -14,7 +15,7 @@ export class XrayService {
     return this._http.get("/xray/config");
   }
 
-  public applyXrayConfiguration(payload: any) {
+  public applyXrayConfiguration(payload: XrayConfigurationDto) {
     return this._http.post("/xray/config", payload);
   }
 

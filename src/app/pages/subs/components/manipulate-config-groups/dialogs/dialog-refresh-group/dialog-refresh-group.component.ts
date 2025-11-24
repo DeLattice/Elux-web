@@ -37,13 +37,14 @@ export class DialogRefreshGroupComponent {
 
     alert('TODO! refresh')
 
-    //
-    // this._dialogBackendService.deleteGroup(group.id).subscribe({
-    //   complete: () => {
-    //     this._subsStateService.removeGroup(group)
-    //     this._observer.complete();
-    //   }
-    // })
+    this._dialogBackendService.refreshGroup(group.id).subscribe({
+      next: data => {
+        console.log(data)
+      },
+      complete: () => {
+        this._observer.complete();
+      }
+    })
   }
 
   protected cancel() {

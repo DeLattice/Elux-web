@@ -1,0 +1,16 @@
+<tui-scrollbar>
+  <cdk-virtual-scroll-viewport
+    (scrolledIndexChange)="onScroll()"
+    [itemSize]="20"
+    [maxBufferPx]="800"
+    [minBufferPx]="400"
+    class="viewport tui-zero-scrollbar"
+    tuiScrollable
+  >
+    <div *cdkVirtualFor="let message of messages(); trackBy: trackByFn">
+      {{ message }}
+    </div>
+  </cdk-virtual-scroll-viewport>
+</tui-scrollbar>
+
+<button (click)="forceScrollToBottom()">To Bottom</button>
