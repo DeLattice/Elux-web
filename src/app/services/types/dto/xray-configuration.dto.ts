@@ -14,3 +14,26 @@ export type XrayConfigurationDto = {
   observatory: Record<string, any>;
   burstObservatory: Record<string, any>;
 }
+
+export function isXrayConfigurationDto(obj: XrayConfigurationDto): boolean {
+  const requiredKeys = [
+    'log', 'routing',
+    'inbounds', 'outbounds',
+    'metrics',
+  ];
+
+  for (const key of requiredKeys) {
+    if (!(key in obj)) {
+      return false;
+    }
+  }
+
+  if (!Array.isArray(obj.inbounds) || !Array.isArray(obj.outbounds)) {
+    return false;
+  }
+
+  if (typeof obj.log !== 'object' || obj.log === null || Array.isArray(obj.log)) return false;
+  if (typeof obj.routing !== 'object' || obj.routing === null || Array.isArray(obj.routing)) return false;
+
+  return true;
+}

@@ -26,7 +26,6 @@ import { XrayStateService } from "@app/services/xray-state.service";
     TuiFade,
     TuiNavigation,
     NgOptimizedImage,
-    TuiTab,
     TuiTabs,
     RouterLink,
     HeaderComponent,

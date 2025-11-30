@@ -22,7 +22,7 @@ export class XrayService {
   public getStatus() {
     return this._http
       .get<boolean>("/xray")
-      .pipe(map((data) => (data ? XrayStatus.Enabled : XrayStatus.Disabled)));
+      .pipe(map(status => (status ? XrayStatus.Enabled : XrayStatus.Disabled)));
   }
 
   public startServer() {

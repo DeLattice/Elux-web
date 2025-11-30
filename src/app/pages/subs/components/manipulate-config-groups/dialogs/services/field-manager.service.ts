@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import {FormArray, FormControl, Validators} from '@angular/forms';
+import {Injectable} from '@angular/core';
+import {FormArray, FormControl} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class FieldManagerService {
     const lastIndex = controls.length - 1;
 
     if (lastIndex < 0) {
-      payloadArray.push(new FormControl('', [Validators.required]));
+      payloadArray.push(new FormControl(''));
       return;
     }
 
@@ -21,7 +21,7 @@ export class FieldManagerService {
       const trimmedValue = lastValue.trim();
 
       if (trimmedValue !== '') {
-        payloadArray.push(new FormControl('', [Validators.required]));
+        payloadArray.push(new FormControl(''));
       }
     }
   }

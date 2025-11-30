@@ -1,5 +1,15 @@
 @if (isOutboundChanged()) {
   <button
+    (click)="reset()"
+    appearance="flat"
+    size="m"
+    tuiButton
+    type="button"
+  >
+    Reset
+  </button>
+
+  <button
     (click)="applyOutbound()"
     appearance="primary-grayscale"
     size="m"

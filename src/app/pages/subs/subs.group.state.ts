@@ -5,7 +5,7 @@ import {GroupRdo} from '@app/pages/subs/model/rdo/group.rdo';
 @Injectable({
   providedIn: "root",
 })
-export class SubsStateService {
+export class SubsGroupStateService {
   constructor() {
     this.init()
   }

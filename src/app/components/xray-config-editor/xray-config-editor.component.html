@@ -1,0 +1,28 @@
+<ng-container #container/>
+
+<tui-action-bar
+  *tuiActionBar="isHaveChanging()"
+  [expanded]="true"
+  size="m"
+>
+  <button
+    (click)="onSubmit()"
+    appearance="glass"
+    iconStart="@tui.save"
+    tuiButton
+    type="button"
+  >
+    Save (Ctrl + V)
+  </button>
+
+  <button
+    (click)="cancel()"
+    [appearance]="isMobile() ? 'glass' : 'icon'"
+    iconStart="@tui.x"
+    tuiIconButton
+    type="button"
+  >
+    Close
+  </button>
+</tui-action-bar>
+

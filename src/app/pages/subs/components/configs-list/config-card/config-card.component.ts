@@ -3,9 +3,12 @@ import {TuiCardCollapsed, TuiCardLarge, TuiCardRow, TuiHeader,} from "@taiga-ui/
 import {TuiAlertService, TuiButton, TuiIcon, TuiTitle} from "@taiga-ui/core";
 import {TuiExpand} from "@taiga-ui/experimental";
 import {DecodeUrlPipe} from "@constructor/pipes/decode-url.pipe";
-import {XrayOutboundClientConfig} from "@app/services/types/rdo/xray-outbound.rdo";
+import {UniqueXrayOutboundClientConfig} from "@app/services/types/rdo/xray-outbound.rdo";
 import {UpperCasePipe} from "@angular/common";
 import {TuiChevron} from '@taiga-ui/kit';
+import {
+  ManipulateConfigGroupsService
+} from '@app/pages/subs/components/manipulate-config-groups/manipulate-config-groups.service';
 
 @Component({
   selector: "app-config-card",
@@ -21,7 +24,6 @@ import {TuiChevron} from '@taiga-ui/kit';
     TuiExpand,
     UpperCasePipe,
     TuiChevron,
-
   ],
   templateUrl: "./config-card.component.html",
   styleUrl: "./config-card.component.scss",
@@ -33,17 +35,15 @@ import {TuiChevron} from '@taiga-ui/kit';
 export class ConfigCardComponent {
   private readonly _alerts = inject(TuiAlertService);
   private readonly _decodeUrlPipe = inject(DecodeUrlPipe);
+  private readonly _manipulateConfigGroupsService = inject(ManipulateConfigGroupsService);
 
   public readonly collapsed = signal(true);
 
-  public readonly config = input.required<XrayOutboundClientConfig>();
+  public readonly config = input.required<UniqueXrayOutboundClientConfig>();
   public readonly isSelectedCard = input.required<boolean>();
 
   protected get configIp(): string {
-    //vless
     const vnext = this.config().settings.vnext
-
-    //shadowsocks
     const servers = this.config().settings.servers
 
     if (vnext) {
@@ -58,10 +58,7 @@ export class ConfigCardComponent {
   }
 
   protected get configPort(): string {
-    //vless
     const vnext = this.config().settings.vnext
-
-    //shadowsocks
     const servers = this.config().settings.servers
 
     if (vnext) {
@@ -84,6 +81,16 @@ export class ConfigCardComponent {
     }
 
     return undefined
+  }
+
+  protected onDelete(): void {
+    const config = this.config();
+
+    const [id, name] = [config.id, this._decodeUrlPipe.transform(config.extra?.clientName ?? '**Incorrect title**')]
+
+    if (!id) return
+
+    this._manipulateConfigGroupsService.showDialogDeleteConfig({id, name})
   }
 
   protected onCopy(): void {

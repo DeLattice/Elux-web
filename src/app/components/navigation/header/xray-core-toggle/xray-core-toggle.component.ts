@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {XrayStateService} from '@app/services/xray-state.service';
 import {XrayService} from '@app/services/xray.service';
 import {TuiAlertService, TuiIcon, TuiLoader} from '@taiga-ui/core';
@@ -21,7 +21,7 @@ import {TuiBlock, TuiSwitch, TuiTooltip} from '@taiga-ui/kit';
   styleUrl: './xray-core-toggle.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class XrayCoreToggleComponent implements OnInit, OnDestroy {
+export class XrayCoreToggleComponent implements OnInit {
   private readonly _xrayStateService = inject(XrayStateService);
   private readonly _xrayService = inject(XrayService);
   private readonly _alerts = inject(TuiAlertService);
@@ -73,6 +73,7 @@ export class XrayCoreToggleComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this._xrayStateService.setStatus = XrayStatus.Disabled;
+          
           this._alerts
             .open("Operation failed", {
               label: "Xray server",
@@ -80,10 +81,7 @@ export class XrayCoreToggleComponent implements OnInit, OnDestroy {
             })
             .subscribe();
         },
-      }),
+      })
     );
-  }
-
-  ngOnDestroy(): void {
   }
 }

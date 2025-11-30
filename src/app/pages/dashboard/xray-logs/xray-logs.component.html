@@ -3,13 +3,15 @@
 <tui-scrollbar>
   <cdk-virtual-scroll-viewport
     (scrolledIndexChange)="onScroll()"
-    [itemSize]="20"
-    [maxBufferPx]="800"
-    [minBufferPx]="400"
+    autosize
     class="viewport tui-zero-scrollbar"
     tuiScrollable
   >
-    <div *cdkVirtualFor="let message of messages(); trackBy: trackByFn">
+    <div *cdkVirtualFor="let message of messages(); trackBy: trackByFn"
+         [class.error]="message.trim().startsWith('Failed')"
+         [class.warning]="message.trim().endsWith('failed')"
+         class="message"
+    >
       {{ message }}
     </div>
   </cdk-virtual-scroll-viewport>

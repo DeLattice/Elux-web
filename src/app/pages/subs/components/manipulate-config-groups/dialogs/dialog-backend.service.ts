@@ -1,17 +1,15 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpStatusCode} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {XrayOutboundClientConfig} from '@app/services/types/rdo/xray-outbound.rdo';
 import {GroupRdo} from '@app/pages/subs/model/rdo/group.rdo';
+import {UniqueXrayOutboundClientConfig} from '@app/services/types/rdo/xray-outbound.rdo';
 
 interface CreateGroupDto {
   name: string;
-  configs: string[];
+  subscribeUrl?: URL;
 }
 
-interface CreateGroupRdo extends GroupRdo {
-  configs: XrayOutboundClientConfig[],
-}
+interface CreateGroupRdo extends GroupRdo {}
 
 @Injectable()
 export class DialogBackendService {
@@ -26,6 +24,14 @@ export class DialogBackendService {
   }
 
   refreshGroup(id: number) {
-    return this.http.patch(`groups/${id}`, {});
+    return this.http.post(`groups/${id}/refresh`, {});
+  }
+
+  createConfigsForGroup(id: number, payload: string[]) {
+    return this.http.post<UniqueXrayOutboundClientConfig[]>(`groups/${id}/configs`, payload);
+  }
+
+  deleteConfigById(id: number) {
+    return this.http.delete<HttpStatusCode>(`groups/configs/${id}`)
   }
 }

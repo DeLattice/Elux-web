@@ -1,5 +1,5 @@
 export interface GroupRdo {
   id: number,
   name: string,
-  subUrl: URL,
+  subscribeUrl?: URL,
 }

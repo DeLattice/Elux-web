@@ -18,13 +18,13 @@ export class SubsService {
 
   getGroupConfigs(
     groupId: number,
-    prms: PaginationParams = {
+    prams: PaginationParams = {
       limit: 100,
       page: 0,
     },
   ): Observable<UniqueXrayOutboundClientConfig[]> {
     return this.http.get<UniqueXrayOutboundClientConfig[]>(`/groups/${groupId}/configs`, {
-      params: {...prms}
+      params: {...prams}
     });
   }
 }

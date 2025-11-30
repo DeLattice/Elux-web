@@ -6,7 +6,7 @@ import {TuiForm} from '@taiga-ui/layout';
 import {DialogBackendService} from '@app/pages/subs/components/manipulate-config-groups/dialogs/dialog-backend.service';
 import {injectContext} from '@taiga-ui/polymorpheus';
 import {TuiDialogContext} from '@taiga-ui/experimental';
-import {SubsStateService} from '@app/pages/subs/subs.state';
+import {SubsGroupStateService} from '@app/pages/subs/subs.group.state';
 import {
   FieldManagerService
 } from '@app/pages/subs/components/manipulate-config-groups/dialogs/services/field-manager.service';
@@ -33,7 +33,7 @@ export class DialogEditGroupComponent {
   public readonly context = injectContext<TuiDialogContext<void, string>>();
 
   private readonly _dialogBackendService = inject(DialogBackendService)
-  private readonly _subsStateService = inject(SubsStateService)
+  private readonly _subsStateService = inject(SubsGroupStateService)
   private readonly _fieldManagerService = inject(FieldManagerService)
   private readonly observer: Observer<void> = this.context.$implicit;
 

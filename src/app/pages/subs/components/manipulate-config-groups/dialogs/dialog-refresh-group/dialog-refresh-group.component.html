@@ -1,25 +1,28 @@
-<form tuiForm>
-  <header tuiHeader>
-    <p>Update group <strong>{{ selectedGroup()?.name }}</strong></p>
-  </header>
-  <footer>
-    <button
-      (click)="cancel()"
-      appearance="secondary"
-      size="m"
-      tuiButton
-      type="button"
-    >
-      No
-    </button>
+<tui-loader [overlay]="true" [showLoader]="isLoading()">
+  <form tuiForm>
+    <header tuiHeader>
+      <p>Refresh group <strong>{{ selectedGroup()?.name }}</strong></p>
+    </header>
 
-    <button
-      (click)="refreshGroup()"
-      size="m"
-      tuiButton
-      type="submit"
-    >
-      Sure!
-    </button>
-  </footer>
-</form>
+    <footer>
+      <button
+        (click)="cancel()"
+        appearance="secondary"
+        size="m"
+        tuiButton
+        type="button"
+      >
+        No
+      </button>
+
+      <button
+        (click)="refreshGroup()"
+        size="m"
+        tuiButton
+        type="submit"
+      >
+        Sure!
+      </button>
+    </footer>
+  </form>
+</tui-loader>

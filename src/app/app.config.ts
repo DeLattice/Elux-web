@@ -1,4 +1,3 @@
-import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideEventPlugins} from "@taiga-ui/event-plugins";
 import {TUI_ALERT_POSITION} from "@taiga-ui/core";
 import {ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection,} from "@angular/core";
@@ -11,18 +10,27 @@ import {
 } from "@angular/router";
 
 import {routes} from "./app.routes";
-import {provideAnimationsAsync} from "@angular/platform-browser/animations/async";
-import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi,} from "@angular/common/http";
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import {AuthInterceptor} from "@constructor/common/interceptors/auth.interceptor";
 import {ApiInterceptor} from "@constructor/common/interceptors/api.interceptor";
+import {provideNuMonacoEditorConfig} from '@ng-util/monaco-editor';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {retryInterceptor} from '@constructor/common/interceptors/retry.interceptor';
+import {errorInterceptor} from '@constructor/common/interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideEventPlugins(),
-    provideAnimations(),
     provideZonelessChangeDetection(),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    provideNuMonacoEditorConfig({baseUrl: 'assets/monaco-editor'}),
+    provideHttpClient(withInterceptorsFromDi(), withFetch(), withInterceptors([retryInterceptor, errorInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,

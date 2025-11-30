@@ -2,7 +2,7 @@
   <app-groups-select/>
 
   <button
-    (click)="showDialogDeleteGroup()"
+    (click)="dialogs.showDialogDeleteGroup()"
     appearance="secondary-destructive"
     size="m"
     tuiButton
@@ -13,9 +13,8 @@
     />
   </button>
 
-
   <button
-    (click)="showDialogAddGroup()"
+    (click)="dialogs.showDialogAddGroup()"
     appearance="primary"
     size="m"
     tuiButton
@@ -27,7 +26,7 @@
   </button>
 
   <button
-    (click)="showDialogEditGroup()"
+    (click)="dialogs.showDialogEditGroup()"
     appearance="info"
     size="m"
     tuiButton
@@ -39,11 +38,12 @@
   </button>
 
   <button
+    (click)="dialogs.showDialogRefreshGroup()"
+    [disabled]="!isHaveSubUrl()"
     appearance="info"
     size="m"
     tuiButton
     type="button"
-    (click)="showDialogRefreshGroup()"
   >
     <tui-icon
       icon="@tui.rotate-ccw"

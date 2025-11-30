@@ -14,6 +14,17 @@
     </hgroup>
 
     <aside tuiAccessories>
+      @if (config().id) {
+        <button
+          (click)="$event.stopPropagation(); onDelete()"
+          appearance="flat"
+          tuiButton
+          type="button"
+        >
+          <tui-icon icon="@tui.trash"/>
+        </button>
+      }
+
       <button
         (click)="$event.stopPropagation(); onCopy()"
         appearance="secondary"

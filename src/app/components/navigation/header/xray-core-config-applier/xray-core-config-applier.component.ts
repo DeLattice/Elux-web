@@ -1,9 +1,8 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {TuiAlertService, TuiButton} from '@taiga-ui/core';
 import {XrayStateService} from '@app/services/xray-state.service';
 import {XrayService} from '@app/services/xray.service';
-import {EMPTY, switchMap} from 'rxjs';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {EMPTY, finalize, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-xray-core-config-applier',
@@ -15,45 +14,40 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class XrayCoreConfigApplierComponent {
-  constructor() {
-    this._xrayStateService.outbounds$
-      .pipe(takeUntilDestroyed())
-      .subscribe({
-        next: (d) =>
-          this.isOutboundChanged.set(true)
-      })
-  }
-
   private readonly _xrayStateService = inject(XrayStateService);
   private readonly _xrayService = inject(XrayService);
   private readonly _alerts = inject(TuiAlertService);
 
-  //todo make detect if outbounds === outbounds then hide button
-  private _outbounds: number[] = [];
+  protected isOutboundChanged = computed(() => this._xrayStateService.isOutboundChanged());
 
-  protected isOutboundChanged = signal<boolean>(false)
+  protected reset() {
+    this._xrayStateService.resetOutboundIds()
 
-  public applyOutbound() {
-    this._xrayService.applyOutbounds(this._xrayStateService.outbounds())
+    this._xrayStateService.isOutboundChanged.set(false)
+  }
+
+  protected applyOutbound() {
+    this._xrayService.applyOutbounds(Array.from(this._xrayStateService.outboundIds()))
       .pipe(
         switchMap(() => {
-          this._alerts.open("<strong>Outbound</strong> applied", {
+          this._alerts.open("Outbound(s) applied", {
             label: "Xray server",
             appearance: "success",
           }).subscribe();
 
-          this.isOutboundChanged.set(false);
           return EMPTY;
-        })
+        }),
+        finalize(() =>
+          this._xrayStateService.isOutboundChanged.set(false)
+        )
       )
       .subscribe({
         error: err => {
-          this._alerts.open("<strong>Outbound</strong> not applied", {
+          this._alerts.open("Outbound(s) not applied", {
             label: "Xray server",
             appearance: "error",
           }).subscribe();
         }
       });
   }
-
 }

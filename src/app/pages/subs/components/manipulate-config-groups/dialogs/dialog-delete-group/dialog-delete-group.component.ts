@@ -6,7 +6,7 @@ import {DialogBackendService} from '../dialog-backend.service';
 import {injectContext} from '@taiga-ui/polymorpheus';
 import {Observer} from 'rxjs';
 import {TuiDialogContext} from '@taiga-ui/experimental';
-import {SubsStateService} from '@app/pages/subs/subs.state';
+import {SubsGroupStateService} from '@app/pages/subs/subs.group.state';
 
 @Component({
   selector: 'app-dialog-delete-group',
@@ -25,7 +25,7 @@ export class DialogDeleteGroupComponent {
   public readonly context = injectContext<TuiDialogContext<void, string>>();
 
   private readonly _dialogBackendService = inject(DialogBackendService)
-  private readonly _subsStateService = inject(SubsStateService)
+  private readonly _subsStateService = inject(SubsGroupStateService)
   private readonly _observer: Observer<void> = this.context.$implicit;
 
   protected readonly selectedGroup = this._subsStateService.activeGroup
@@ -38,6 +38,8 @@ export class DialogDeleteGroupComponent {
     this._dialogBackendService.deleteGroup(group.id).subscribe({
       complete: () => {
         this._subsStateService.removeGroup(group)
+
+        this._observer.next();
         this._observer.complete();
       }
     })

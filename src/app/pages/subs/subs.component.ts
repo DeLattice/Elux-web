@@ -1,20 +1,20 @@
-import {ChangeDetectionStrategy, Component, inject} from "@angular/core";
+import {ChangeDetectionStrategy, Component} from "@angular/core";
 import {ConfigsListComponent} from "./components/configs-list/configs-list.component";
 import {
   ManipulateConfigGroupsComponent
 } from "./components/manipulate-config-groups/manipulate-config-groups.component";
-import {TuiTablePagination, TuiTablePaginationEvent} from '@taiga-ui/addon-table';
-import {SubsStateService} from '@app/pages/subs/subs.state';
-import {PaginationParams} from '@constructor/types/pagination-params';
-import {XrayConfigEditorComponent} from '@app/components/xray-config-editor/xray-config-editor.component';
+import {
+  ManipulateConfigGroupsService
+} from '@app/pages/subs/components/manipulate-config-groups/manipulate-config-groups.service';
+import {DialogBackendService} from '@app/pages/subs/components/manipulate-config-groups/dialogs/dialog-backend.service';
 
 @Component({
   selector: "app-subs",
-  imports: [ConfigsListComponent, ManipulateConfigGroupsComponent, TuiTablePagination, XrayConfigEditorComponent],
+  imports: [ConfigsListComponent, ManipulateConfigGroupsComponent],
   templateUrl: "./subs.component.html",
   styleUrl: "./subs.component.scss",
+  providers: [DialogBackendService, ManipulateConfigGroupsService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubsComponent {
-  private readonly _subStateService = inject(SubsStateService);
 }

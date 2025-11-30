@@ -1,13 +1,14 @@
-import {ChangeDetectionStrategy, Component, inject, signal, ViewChild,} from "@angular/core";
+import {ChangeDetectionStrategy, Component, computed, inject, signal, ViewChild,} from "@angular/core";
 import {TuiScrollable, TuiScrollbar} from "@taiga-ui/core";
 import {CdkVirtualScrollViewport, ScrollingModule} from "@angular/cdk/scrolling";
 import {ConfigCardComponent} from "./config-card/config-card.component";
 import {combineLatest, debounceTime, distinctUntilChanged, of, startWith, switchMap, tap} from "rxjs";
 import {takeUntilDestroyed, toObservable} from "@angular/core/rxjs-interop";
 import {SubsService} from "../../subs.service";
-import {SubsStateService} from "../../subs.state";
+import {SubsGroupStateService} from "../../subs.group.state";
 import {XrayStateService} from '@app/services/xray-state.service';
 import {UniqueXrayOutboundClientConfig} from '@app/services/types/rdo/xray-outbound.rdo';
+import {ConfigsListBusService} from '@app/pages/subs/components/configs-list/configs-list.bus.service';
 
 @Component({
   selector: "app-configs-list",
@@ -25,17 +26,18 @@ export class ConfigsListComponent {
   @ViewChild(CdkVirtualScrollViewport) viewport!: CdkVirtualScrollViewport;
 
   private readonly _subsService = inject(SubsService);
-  private readonly _subsStateService = inject(SubsStateService);
+  private readonly _subsGroupStateService = inject(SubsGroupStateService);
   private readonly _xrayStateService = inject(XrayStateService);
+  private readonly _configsListBusService = inject(ConfigsListBusService);
 
   protected readonly currentPage = signal(0);
   protected readonly limit = signal(100);
   protected readonly isLoading = signal(false);
   protected readonly allConfigsLoaded = signal(false);
   protected readonly allConfigs = signal<UniqueXrayOutboundClientConfig[]>([]);
-  protected readonly outbound_ids = signal<Set<number>>(new Set<number>(this._xrayStateService.outbounds()));
+  protected readonly outbound_ids = this._xrayStateService.outboundIds;
 
-  private readonly activeGroup$ = toObservable(this._subsStateService.activeGroup).pipe(
+  private readonly activeGroup$ = toObservable(this._subsGroupStateService.activeGroup).pipe(
     distinctUntilChanged((prev, curr) => prev?.id === curr?.id)
   );
 
@@ -43,19 +45,26 @@ export class ConfigsListComponent {
     distinctUntilChanged()
   );
 
+  protected readonly trigger = computed(() => this._configsListBusService.triggerUpdate());
+  private readonly refreshTrigger$ = toObservable(this.trigger);
+
   private readonly configsLoadTrigger$ = combineLatest([
     this.activeGroup$.pipe(
       tap(() => {
-        this.allConfigs.set([]);
         this.currentPage.set(0);
         this.allConfigsLoaded.set(false);
         this.viewport?.scrollToIndex(0);
       })
     ),
-    this.loadMoreTrigger$.pipe(startWith(0))
+    this.loadMoreTrigger$.pipe(startWith(0)),
+    this.refreshTrigger$.pipe(
+      tap(() => {
+        this.allConfigsLoaded.set(false);
+      })
+    )
   ]).pipe(
     debounceTime(0),
-    switchMap(([selectedGroup, page]) => {
+    switchMap(([selectedGroup, page, trigger]) => {
       if (!selectedGroup || this.allConfigsLoaded()) {
         return of([]);
       }
@@ -107,11 +116,6 @@ export class ConfigsListComponent {
   }
 
   protected onSelectConfigCard(id: number): void {
-    const ids = new Set(this.outbound_ids());
-    if (!ids.delete(id)) {
-      ids.add(id);
-    }
-    this.outbound_ids.set(ids);
-    this._xrayStateService.outbounds.set(Array.from(ids));
+    this._xrayStateService.insertOrDeleteOutboundId(id)
   }
 }

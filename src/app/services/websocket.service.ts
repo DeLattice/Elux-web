@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 import {Observable} from 'rxjs';
+import {environment} from '@constructor/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,9 @@ export class WebSocketService {
 
   constructor() {
     this.socket$ = webSocket({
-      url: 'ws://localhost:8400/xray/logs/ws',
+      url: `${environment.apiXrayLogsUrl}/xray/logs/ws`,
       deserializer: (message) => message.data
     });
-  }
-
-  sendMessage(message: any) {
-    this.socket$.next(message);
   }
 
   getMessages(): Observable<any> {

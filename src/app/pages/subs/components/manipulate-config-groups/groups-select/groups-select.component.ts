@@ -7,7 +7,7 @@ import {
   TuiTextfieldOptionsDirective,
 } from "@taiga-ui/core";
 import {FormsModule} from "@angular/forms";
-import {SubsStateService} from "@app/pages/subs/subs.state";
+import {SubsGroupStateService} from "@app/pages/subs/subs.group.state";
 import {TuiStringHandler} from '@taiga-ui/cdk';
 import {GroupRdo} from '@app/pages/subs/model/rdo/group.rdo';
 
@@ -29,18 +29,16 @@ import {GroupRdo} from '@app/pages/subs/model/rdo/group.rdo';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsSelectComponent {
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly _subsStateService = inject(SubsStateService);
+  private readonly _cdr = inject(ChangeDetectorRef);
+  private readonly _subsStateService = inject(SubsGroupStateService);
 
   constructor() {
     effect(() => {
       const currentGroups = this.groups();
 
-      if (!this.value && currentGroups.length > 0) {
-        this.selectGroup(currentGroups[currentGroups.length - 1]);
-      }
+      this.selectGroup(currentGroups[currentGroups.length - 1]);
 
-      this.cdr.markForCheck();
+      this._cdr.markForCheck();
     });
   }
 

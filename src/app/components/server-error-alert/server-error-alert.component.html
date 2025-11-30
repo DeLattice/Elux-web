@@ -1,0 +1,19 @@
+<div class="error-content">
+  <p class="error-text">
+    <strong>Ошибка сервера:</strong> {{ data.message }}
+  </p>
+
+  <div class="actions">
+    <span class="timer">Авто-перезагрузка через {{ secondsLeft() }} сек...</span>
+
+    <button
+      tuiButton
+      type="button"
+      size="s"
+      appearance="outline-grayscale"
+      (click)="reload()"
+    >
+      Reload
+    </button>
+  </div>
+</div>
