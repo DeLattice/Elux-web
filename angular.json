@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "desktop": {
+    "frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -14,27 +14,29 @@
           "displayBlock": true
         }
       },
-      "root": "projects/desktop",
-      "sourceRoot": "projects/desktop/src",
-      "prefix": "app-desktop",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-esbuild:application",
           "options": {
-            "browser": "projects/desktop/src/main.ts",
+            "outputPath": "dist/frontend",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
             "polyfills": [],
-            "tsConfig": "projects/desktop/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
-                "glob": "**/*.{svg,png,jpg,jpeg,gif,webp,glb,mp4}",
+                "glob": "**/*",
                 "input": "src/assets",
-                "output": "/assets"
+                "output": "assets"
               },
               {
-                "glob": "**/*.{ico,xml,txt}",
-                "input": "projects/desktop/public",
-                "output": "/"
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor/min",
+                "output": "assets/monaco-editor"
               },
               {
                 "glob": "**/*",
@@ -45,7 +47,7 @@
             "styles": [
               "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
               "node_modules/@taiga-ui/core/styles/taiga-ui-fonts.less",
-              "projects/desktop/src/styles.scss"
+              "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -58,24 +60,19 @@
           },
           "configurations": {
             "production": {
-              "aot": true,
-              "optimization": true,
-              "sourceMap": false,
-              "extractLicenses": true,
-              "namedChunks": false,
-              "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "300kb",
-                  "maximumError": "2400kb"
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
-              ]
+              ],
+              "outputHashing": "all"
             },
             "development": {
               "optimization": false,
@@ -89,13 +86,16 @@
           "builder": "@angular-builders/custom-esbuild:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "desktop:build:production"
+              "buildTarget": "frontend:build:production"
             },
             "development": {
-              "buildTarget": "desktop:build:development"
+              "buildTarget": "frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
           "builder": "@angular/build:karma",
@@ -104,25 +104,22 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "projects/desktop/tsconfig.spec.json",
+            "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/desktop/public"
+                "input": "public"
               }
             ],
             "styles": [
-              "projects/desktop/src/styles.scss"
-            ]
+              "src/styles.scss"
+            ],
+            "scripts": []
           }
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false,
-    "packageManager": "yarn"
   },
   "schematics": {
     "@schematics/angular:component": {

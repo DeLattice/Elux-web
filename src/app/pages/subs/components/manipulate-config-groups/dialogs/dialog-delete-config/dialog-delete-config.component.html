@@ -1,0 +1,26 @@
+<form tuiForm>
+  <div>
+    Remove <strong>{{ data.name }}</strong> config?
+  </div>
+
+  <footer>
+    <button
+      (click)="cancel()"
+      appearance="secondary"
+      size="m"
+      tuiButton
+      type="button"
+    >
+      Cancel
+    </button>
+
+    <button
+      (click)="onDelete()"
+      size="m"
+      tuiButton
+      type="button"
+    >
+      Delete
+    </button>
+  </footer>
+</form>

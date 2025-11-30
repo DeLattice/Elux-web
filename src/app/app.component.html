@@ -1,0 +1,18 @@
+<tui-root
+  [attr.tuiTheme]="darkMode() ? 'dark' : null"
+>
+  <app-navigation>
+    <router-outlet/>
+  </app-navigation>
+
+  <ng-container ngProjectAs="tuiOverContent">
+  </ng-container>
+  <ng-container ngProjectAs="tuiOverDialogs">
+  </ng-container>
+  <ng-container ngProjectAs="tuiOverAlerts">
+  </ng-container>
+  <ng-container ngProjectAs="tuiOverDropdowns">
+  </ng-container>
+  <ng-container ngProjectAs="tuiOverHints">
+  </ng-container>
+</tui-root>

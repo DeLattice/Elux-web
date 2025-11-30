@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1em;
+
+  height: 100%;
+
+  margin: 0 2em;
+
+  tui-table-pagination {
+    margin-block-end: 1em;
+  }
+}

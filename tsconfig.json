@@ -1,59 +1,50 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "esModuleInterop": true,
-    "strictPropertyInitialization": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
-    "declaration": false,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
-    "resolveJsonModule": true,
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
-    "types": [
-      "vite/client"
-    ],
+    "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "./src/*",
-        "./projects/*"
+      "@app/*": [
+        "src/app/*"
       ],
+      "@constructor/*": [
+        "src/app/constructor/*"
+      ]
     }
   },
+  "lib": [
+    "ES2022",
+    "dom"
+  ],
+  "types": [
+    "vite/client"
+  ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
-    "enableIvy": true,
     "extendedDiagnostics": {
+      "defaultCategory": "warning",
       "checks": {
-        "unusedStandaloneImports": "suppress",
-        "optionalChainNotNullable": "suppress"
+        "interpolatedSignalNotInvoked": "error",
+        "uninvokedFunctionInEventBinding": "error"
       }
     }
-  },
-  "references": [
-    {
-      "path": "./projects/desktop/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/desktop/tsconfig.spec.json"
-    }
-  ]
+  }
 }

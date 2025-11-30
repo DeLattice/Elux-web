@@ -1,0 +1,112 @@
+<header tuiNavigationHeader>
+  <img alt="logotype" class="logo" height="32" ngSrc="assets/logo.webp" priority width="32"/>
+
+  <span tuiNavigationLogo>
+									<span tuiFade>Luxnulla</span>
+									<tui-badge>v0.1</tui-badge>
+		</span>
+
+  <hr/>
+
+  <button
+    iconStart="@tui.bell"
+    tuiIconButton
+    type="button"
+  >
+    Notifications
+    <tui-badge-notification/>
+  </button>
+</header>
+
+<div [style.display]="'flex'">
+  <aside
+    [style.height]="'calc(100vh - 48px)'"
+    [tuiNavigationAside]="expanded()"
+  >
+    <header [style.margin-block-end.em]="0.5">
+      <button
+        [routerLinkActiveOptions]="{exact: true}"
+        iconStart="@tui.home"
+        routerLink="/"
+        tuiAsideItem
+        type="button"
+      >
+        <span tuiFade>Dashboard</span>
+      </button>
+
+      <button
+        [routerLinkActiveOptions]="{exact: true}"
+        iconStart="@tui.boxes"
+        routerLink="/subs"
+        tuiAsideItem
+        type="button"
+      >
+        <span tuiFade>Subs</span>
+      </button>
+    </header>
+
+    <tui-aside-group>
+      <button
+        iconStart="@tui.settings"
+        tuiAsideItem
+        tuiChevron
+        type="button"
+      >
+        Settings
+
+        <ng-template>
+          <button
+            routerLink="/settings/xray"
+            tuiAsideItem
+            type="button"
+          >
+            Xray
+          </button>
+        </ng-template>
+      </button>
+    </tui-aside-group>
+
+
+    <button
+      iconStart="@tui.plus"
+      tuiAsideItem
+      type="button"
+    >
+      Add
+    </button>
+
+    <footer>
+      <button
+        iconStart="@tui.star"
+        tuiAsideItem
+        type="button"
+      >
+        Favorites
+      </button>
+      <button
+        (click)="handleToggle()"
+        [iconStart]="expanded() ? '@tui.chevron-left' : '@tui.chevron-right'"
+        tuiAsideItem
+        type="button"
+      >
+        {{ expanded() ? 'Collapse' : 'Expand' }}
+      </button>
+    </footer>
+  </aside>
+
+  <main>
+    <nav
+      [style.margin]="'0.5rem 0'"
+      [style.position]="'sticky'"
+      tuiSubheader
+    >
+      <app-header/>
+    </nav>
+
+    <hr>
+
+    <div>
+      <ng-content/>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,49 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+
+  height: 100%;
+
+  .message {
+    &.error {
+      color: var(--tui-background-accent-2);
+    }
+    &.warning {
+      color: var(--tui-text-action);
+    }
+  }
+
+  tui-scrollbar {
+    background: #151515;
+
+    border-radius: 1em;
+  }
+
+  tui-scrollbar,
+  .viewport {
+    overflow-anchor: none;
+
+    height: 40em;
+
+    div {
+      display: flex;
+      flex-wrap: wrap;
+
+      padding-left: 1em;
+    }
+  }
+
+  .cdk-virtual-scroll-viewport {
+    height: 100%;
+    width: 100%;
+
+    .cdk-virtual-scroll-content-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      padding: 1em;
+    }
+  }
+}

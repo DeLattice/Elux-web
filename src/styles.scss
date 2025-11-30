@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+[tuiIcons]:before, [tuiIcons]:after {
+  block-size: 0.8em;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+:root, :host {
+  --tui-font-heading: "Nunito Sans", sans-serif;
+  --tui-font-text: "Nunito Sans", sans-serif
+}

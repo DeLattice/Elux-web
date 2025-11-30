@@ -1,0 +1,123 @@
+@let clientName = config().extra?.clientName;
+
+<section
+  [class.selected]="isSelectedCard()"
+  [style.margin-block-end.em]="0"
+  [tuiCardCollapsed]="collapsed()"
+  tuiCardLarge="compact"
+>
+  <header tuiHeader="body-m">
+    <hgroup tuiTitle>
+      <h2>
+        {{ (clientName ? clientName : 'None') | decodeUrl }}
+      </h2>
+    </hgroup>
+
+    <aside tuiAccessories>
+      @if (config().id) {
+        <button
+          (click)="$event.stopPropagation(); onDelete()"
+          appearance="flat"
+          tuiButton
+          type="button"
+        >
+          <tui-icon icon="@tui.trash"/>
+        </button>
+      }
+
+      <button
+        (click)="$event.stopPropagation(); onCopy()"
+        appearance="secondary"
+        tuiButton
+        type="button"
+      >
+        <tui-icon icon="@tui.copy"/>
+      </button>
+    </aside>
+  </header>
+
+  <div tuiCardRow>
+    <div class="t-row">
+      <div tuiTitle>
+        <div tuiSubtitle>
+          <tui-icon icon="@tui.clock"/>
+          Status
+        </div>
+
+        <div>
+          Pending
+        </div>
+      </div>
+
+      <div tuiTitle>
+        <div tuiSubtitle>
+          <tui-icon icon="@tui.handshake"/>
+          Protocol
+        </div>
+
+        <p>
+          {{ config().protocol | uppercase }}
+        </p>
+      </div>
+
+      <div tuiTitle>
+        <div tuiSubtitle>
+          <tui-icon icon="@tui.arrow-up-down"/>
+          Network
+        </div>
+
+        <p>
+          {{ config().streamSettings.network | uppercase }}
+        </p>
+      </div>
+
+      <div tuiTitle>
+        <div tuiSubtitle>
+          <tui-icon icon="@tui.network"/>
+          Ip | Domain
+        </div>
+        <div>
+          {{ configIp | uppercase }}
+        </div>
+      </div>
+
+      <div tuiTitle>
+        <div tuiSubtitle>
+          <tui-icon icon="@tui.ethernet-port"/>
+          Port
+        </div>
+        <div>
+          {{ configPort | uppercase }}
+        </div>
+      </div>
+
+      @if (configFlow) {
+        <div tuiTitle>
+          <div tuiSubtitle>
+            <tui-icon icon="@tui.key-round"/>
+            Flow
+          </div>
+
+          <p>
+            {{ configFlow | uppercase }}
+          </p>
+        </div>
+      }
+    </div>
+
+    <button
+      (click)="$event.stopPropagation(); collapsed.set(!collapsed())"
+      [tuiChevron]="!collapsed()"
+      appearance="secondary"
+      size="s"
+      tuiIconButton
+      type="button"
+    >
+      Expand
+    </button>
+  </div>
+
+  <tui-expand [expanded]="!collapsed()">
+    statistics
+  </tui-expand>
+</section>

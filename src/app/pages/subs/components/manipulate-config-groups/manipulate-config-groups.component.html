@@ -1,0 +1,52 @@
+<div class="edit-group-container">
+  <app-groups-select/>
+
+  <button
+    (click)="dialogs.showDialogDeleteGroup()"
+    appearance="secondary-destructive"
+    size="m"
+    tuiButton
+    type="button"
+  >
+    <tui-icon
+      icon="@tui.trash"
+    />
+  </button>
+
+  <button
+    (click)="dialogs.showDialogAddGroup()"
+    appearance="primary"
+    size="m"
+    tuiButton
+    type="button"
+  >
+    <tui-icon
+      icon="@tui.plus"
+    />
+  </button>
+
+  <button
+    (click)="dialogs.showDialogEditGroup()"
+    appearance="info"
+    size="m"
+    tuiButton
+    type="button"
+  >
+    <tui-icon
+      icon="@tui.settings"
+    />
+  </button>
+
+  <button
+    (click)="dialogs.showDialogRefreshGroup()"
+    [disabled]="!isHaveSubUrl()"
+    appearance="info"
+    size="m"
+    tuiButton
+    type="button"
+  >
+    <tui-icon
+      icon="@tui.rotate-ccw"
+    />
+  </button>
+</div>

@@ -1,0 +1,10 @@
+:host {
+  display: block;
+
+  height: 100%;
+}
+
+tui-action-bar {
+  left: max(calc(90% - 37rem), 1.5rem);
+  inline-size: auto;
+}

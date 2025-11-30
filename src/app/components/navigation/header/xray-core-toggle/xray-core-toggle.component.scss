@@ -1,0 +1,18 @@
+:host {
+  display: block;
+
+  label {
+    user-select: none;
+  }
+
+  input {
+    --tui-background-accent-1: #2c9845;
+    --tui-background-accent-1-hover: #38a443;
+  }
+}
+
+tui-loader {
+  min-inline-size: 2rem;
+
+  --tui-thickness: 0.125em;
+}

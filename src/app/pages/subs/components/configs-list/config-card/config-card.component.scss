@@ -1,0 +1,31 @@
+:host {
+  display: block;
+
+  cursor: pointer;
+
+  section {
+    &.selected {
+      background: #2a3353;
+    }
+  }
+
+  header[tuiHeader] {
+    --t-comp: 0;
+
+    hgroup[tuiTitle] {
+      font-weight: 600;
+    }
+  }
+
+  div[tuiCardRow] {
+    div.t-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+
+      padding: 1em;
+      border-radius: var(--tui-radius-m);
+      background: var(--tui-background-neutral-1);
+    }
+  }
+}

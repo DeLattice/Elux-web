@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  align-items: center;
+
+  gap: 1em;
+
+  //max-width: 40em;
+
+  .edit-group-container {
+    display: flex;
+    flex-direction: row;
+
+    flex: 1;
+
+    gap: calc(1em / 2);
+
+    app-groups-select {
+      flex: 1;
+    }
+  }
+}

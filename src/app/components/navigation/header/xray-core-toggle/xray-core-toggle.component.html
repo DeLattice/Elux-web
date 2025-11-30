@@ -1,0 +1,23 @@
+<tui-loader
+  [overlay]="true"
+  [showLoader]="false"
+>
+  <label
+    [style.align-self]="'stretch'"
+    tuiBlock="m"
+  >
+    Xray
+
+    <input
+      [formControl]="xrayStatusControl"
+      size="s"
+      tuiSwitch
+      type="checkbox"
+    />
+
+    <tui-icon
+      [style.margin-left]="'auto'"
+      tuiTooltip="Xray server state switch"
+    />
+  </label>
+</tui-loader>

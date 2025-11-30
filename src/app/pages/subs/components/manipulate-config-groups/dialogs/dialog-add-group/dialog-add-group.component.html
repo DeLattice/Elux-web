@@ -1,0 +1,87 @@
+<tui-loader [overlay]="true" [showLoader]="isLoading()">
+  <form [formGroup]="form"
+        tuiForm="m"
+  >
+    <tui-textfield
+      iconStart="@tui.paperclip"
+      tuiTextfieldSize="m"
+    >
+      <input
+        formControlName="name"
+        placeholder="Enter name group"
+        tuiTextfield
+      />
+    </tui-textfield>
+
+    <tui-notification appearance="glass">
+      <h3 tuiTitle>
+        Entering subscribe url
+        <span tuiSubtitle>This URL updates the configurations, completely overwriting the group.</span>
+      </h3>
+    </tui-notification>
+
+    <tui-textfield
+      iconStart="@tui.paperclip"
+      tuiTextfieldSize="m"
+    >
+      <input
+        formControlName="subscribeUrl"
+        placeholder="Enter subscribe group url"
+        tuiTextfield
+      />
+    </tui-textfield>
+
+    <tui-notification appearance="warning">
+      <h3 tuiTitle>
+        Entering configs
+        <span tuiSubtitle>You can safely leave the last field for config input empty, as it is added automatically and you can use it if necessary.</span>
+      </h3>
+    </tui-notification>
+
+    <ng-container formArrayName="payload">
+      @for (control of payload.controls; track $index) {
+        <tui-textfield
+          iconStart="@tui.code"
+          tuiTextfieldSize="m"
+        >
+          <input
+            (blur)="onFieldBlur($index)"
+            [formControl]="control"
+            [placeholder]="'Enter URL/base64/text-config with configs'"
+            tuiTextfield
+          />
+          <tui-icon [tuiTooltip]="textFieldPayloadTooltip"/>
+        </tui-textfield>
+      }
+    </ng-container>
+
+    <footer>
+      <button
+        appearance="secondary"
+        tuiButton
+        type="button"
+      >
+        Cancel
+      </button>
+
+      <button
+        (click)="createGroup()"
+        [disabled]="form.invalid"
+        tuiButton
+        type="submit"
+      >
+        Create
+      </button>
+    </footer>
+  </form>
+</tui-loader>
+
+<ng-template #textFieldPayloadTooltip>
+  <div>Valid data:</div>
+  <br>
+  <div>protocol://user_id@ip:port?...etc.</div>
+  <hr class="tui-space_top-1 tui-space_bottom-1"/>
+  <div>I3Byb2ZpbGUtdGl0bGU6IGJhc...</div>
+  <hr class="tui-space_top-1 tui-space_bottom-1"/>
+  <div>https://example.com/a.txt</div>
+</ng-template>
