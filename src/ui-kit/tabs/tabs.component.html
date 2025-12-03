@@ -1,8 +1,0 @@
-<div [className]="className">
-  <button class="tab" *ngFor="let tab of tabs"
-          [class.active]="selTab === tab.name"
-          (click)="selectTab(tab.name)"
-  >
-    <b>{{ tab.name }}</b>
-  </button>
-</div>

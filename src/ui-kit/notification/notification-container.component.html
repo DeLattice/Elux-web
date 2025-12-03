@@ -1,7 +1,0 @@
-<app-notification
-  [@notificationAnimation]
-  *ngFor="let notification of notifications | async; trackBy: trackById; index as i"
-
-  [idx]="i"
-  [data]="notification"
-/>
