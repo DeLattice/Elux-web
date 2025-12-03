@@ -1,20 +1,28 @@
-<h2>Xray logs</h2>
+<div>
+  <h2>Xray logs</h2>
 
+<<<<<<< HEAD
 <tui-scrollbar>
   <cdk-virtual-scroll-viewport
     (scrolledIndexChange)="onScroll()"
     autosize
     class="viewport tui-zero-scrollbar"
     tuiScrollable
-  >
-    <div *cdkVirtualFor="let message of messages(); trackBy: trackByFn"
-         [class.error]="message.trim().startsWith('Failed')"
-         [class.warning]="message.trim().endsWith('failed')"
-         class="message"
-    >
-      {{ message }}
-    </div>
-  </cdk-virtual-scroll-viewport>
-</tui-scrollbar>
+=======
+<!--  <button (click)="forceScrollToBottom()">To Bottom</button>-->
+</div>
 
-<button (click)="forceScrollToBottom()">To Bottom</button>
+
+<cdk-virtual-scroll-viewport
+  autosize
+  class="viewport"
+>
+  <div
+    *cdkVirtualFor="let message of messages(); trackBy: trackByFn"
+    class="message"
+>>>>>>> 426ce75 ([PREUP] 1) adding scroll manager system)
+  >
+    {{ message }}
+  </div>
+</cdk-virtual-scroll-viewport>
+
