@@ -1,16 +1,15 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {TuiButton, TuiIcon, TuiNotification, TuiTextfield, TuiTitle} from '@taiga-ui/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {TuiAlertService, TuiButton, TuiIcon, TuiTextfield} from '@taiga-ui/core';
 import {TuiTooltip} from '@taiga-ui/kit';
 import {TuiForm} from '@taiga-ui/layout';
 import {DialogBackendService} from '@app/pages/subs/components/manipulate-config-groups/dialogs/dialog-backend.service';
 import {injectContext} from '@taiga-ui/polymorpheus';
 import {TuiDialogContext} from '@taiga-ui/experimental';
 import {SubsGroupStateService} from '@app/pages/subs/subs.group.state';
-import {
-  FieldManagerService
-} from '@app/pages/subs/components/manipulate-config-groups/dialogs/services/field-manager.service';
 import {Observer, Subscription} from 'rxjs';
+import {urlValidator} from '@constructor/common/utils/validators';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-dialog-edit-group',
@@ -22,8 +21,6 @@ import {Observer, Subscription} from 'rxjs';
     TuiTooltip,
     TuiButton,
     TuiForm,
-    TuiNotification,
-    TuiTitle,
   ],
   templateUrl: './dialog-edit-group.component.html',
   styleUrl: './dialog-edit-group.component.scss',
@@ -34,43 +31,51 @@ export class DialogEditGroupComponent {
 
   private readonly _dialogBackendService = inject(DialogBackendService)
   private readonly _subsStateService = inject(SubsGroupStateService)
-  private readonly _fieldManagerService = inject(FieldManagerService)
+  private readonly _alerts = inject(TuiAlertService)
   private readonly observer: Observer<void> = this.context.$implicit;
 
   private readonly subscriptions = new Subscription();
 
+  protected readonly group = this._subsStateService.activeGroup()!;
+
   protected readonly form = new FormGroup({
     name: new FormControl('', Validators.required),
-    subUrl: new FormControl(''),
-    payload: new FormArray([
-      new FormControl('', [Validators.required]),
-    ], Validators.required),
+    subscribeUrl: new FormControl('', {validators: [urlValidator]}),
   });
 
-  protected get payload() {
-    return this.form.controls.payload
-  }
-
   constructor() {
-    this.subscriptions.add(
-      this.payload.valueChanges.subscribe(() => {
-        this._fieldManagerService.checkAndAddEmptyField(this.payload);
-      })
-    );
+    this.form.patchValue({
+      name: this.group.name,
+      subscribeUrl: this.group.subscribeUrl ? this.group.subscribeUrl.toString() : undefined,
+    }, {emitEvent: false})
   }
 
-  protected onFieldBlur(index: number): void {
-    const control = this.payload.at(index);
-    if (!control) return;
+  onSubmit() {
+    const name = this.form.get('name')?.value!;
+    const subUrl = this.form.get('subscribeUrl')?.value;
 
-    const value = control.value?.trim();
+    const subscribeUrl = subUrl ? new URL(subUrl) : undefined
 
-    if (!value) {
-      if (this.payload.length > 1) {
-        this.payload.removeAt(index);
-      }
-    }
+    this._dialogBackendService.updateGroup(this.group.id, {
+      name, subscribeUrl,
+    })
+      .subscribe(
+        {
+          next: group => {
+            this._subsStateService.updateGroup({
+              id: this.group.id, name, subscribeUrl
+            });
 
-    this._fieldManagerService.checkAndAddEmptyField(this.payload);
+            this.observer.complete()
+          },
+          error: (err: HttpErrorResponse) => {
+            this._alerts.open(err.message, {data: err, appearance: "error"}).subscribe()
+          }
+        }
+      )
+  }
+
+  cancel() {
+    this.observer.complete()
   }
 }

@@ -2,18 +2,6 @@
   <app-groups-select/>
 
   <button
-    (click)="dialogs.showDialogDeleteGroup()"
-    appearance="secondary-destructive"
-    size="m"
-    tuiButton
-    type="button"
-  >
-    <tui-icon
-      icon="@tui.trash"
-    />
-  </button>
-
-  <button
     (click)="dialogs.showDialogAddGroup()"
     appearance="primary"
     size="m"
@@ -27,6 +15,7 @@
 
   <button
     (click)="dialogs.showDialogEditGroup()"
+    [disabled]="!isNotEditable()"
     appearance="info"
     size="m"
     tuiButton
@@ -47,6 +36,19 @@
   >
     <tui-icon
       icon="@tui.rotate-ccw"
+    />
+  </button>
+
+  <button
+    (click)="dialogs.showDialogDeleteGroup()"
+    [disabled]="!isNotRemovable()"
+    appearance="secondary-destructive"
+    size="m"
+    tuiButton
+    type="button"
+  >
+    <tui-icon
+      icon="@tui.trash"
     />
   </button>
 </div>

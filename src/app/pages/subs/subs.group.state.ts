@@ -17,6 +17,12 @@ export class SubsGroupStateService {
     this._selectedGroup.set(group);
   }
 
+  public updateGroup(updated: GroupRdo) {
+    this._groups.update(groups =>
+      groups.map(g => g.id === updated.id ? updated : g)
+    );
+  }
+
   private readonly _groups = signal<GroupRdo[]>([]);
   public readonly groups = computed(() => this._groups());
 

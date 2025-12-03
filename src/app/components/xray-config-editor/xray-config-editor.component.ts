@@ -36,7 +36,7 @@ export class XrayConfigEditorComponent {
   private readonly _vcr =
     viewChild('container', {read: ViewContainerRef});
 
-  editCompRef: ComponentRef<NuMonacoEditorComponent> | null = null;
+  editorCompRef: ComponentRef<NuMonacoEditorComponent> | null = null;
 
   protected currentValue = '';
   private _cachedValue = '';
@@ -55,7 +55,7 @@ export class XrayConfigEditorComponent {
 
 
   private initEditorComponent(value: string) {
-    const component = this.editCompRef = this._vcr()?.createComponent(NuMonacoEditorComponent)!;
+    const component = this.editorCompRef = this._vcr()?.createComponent(NuMonacoEditorComponent)!;
 
     const model: NuMonacoEditorModel = {
       language: 'json',
@@ -89,7 +89,7 @@ export class XrayConfigEditorComponent {
     });
 
   protected onSubmit() {
-    const editor = this.editCompRef!
+    const editor = this.editorCompRef!
 
     const rawXrayConfig = JSON.parse(editor.instance.editor?.getValue()!);
     if (!rawXrayConfig) return
@@ -115,7 +115,7 @@ export class XrayConfigEditorComponent {
   }
 
   private reset() {
-    const editor = this.editCompRef!
+    const editor = this.editorCompRef!
 
     this.currentValue = this._cachedValue
 

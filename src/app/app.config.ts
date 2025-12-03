@@ -30,7 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideAnimationsAsync(),
     provideNuMonacoEditorConfig({baseUrl: 'assets/monaco-editor'}),
-    provideHttpClient(withInterceptorsFromDi(), withFetch(), withInterceptors([retryInterceptor, errorInterceptor])),
+    provideHttpClient(withInterceptorsFromDi(), withFetch(), withInterceptors([retryInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,

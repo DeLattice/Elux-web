@@ -20,4 +20,12 @@ export class ManipulateConfigGroupsComponent {
   protected readonly isHaveSubUrl = computed<boolean>(() => {
     return !!this._groupStateService.activeGroup()?.subscribeUrl
   });
+
+  protected readonly isNotRemovable = computed<boolean>(() => {
+    return !!this._groupStateService.activeGroup()
+  });
+
+  protected readonly isNotEditable = computed<boolean>(() => {
+    return !!this._groupStateService.activeGroup()
+  });
 }

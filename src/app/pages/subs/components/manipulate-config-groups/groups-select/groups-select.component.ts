@@ -42,10 +42,10 @@ export class GroupsSelectComponent {
     });
   }
 
-  protected stringify: TuiStringHandler<GroupRdo> = (item) => item.name;
-
   protected readonly groups = this._subsStateService.groups;
   protected value: GroupRdo | null = this._subsStateService.activeGroup();
+
+  protected stringify: TuiStringHandler<GroupRdo> = (item) => item.name;
 
   selectGroup(event: GroupRdo) {
     this.value = event;

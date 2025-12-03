@@ -1,21 +1,11 @@
 <header tuiNavigationHeader>
   <img alt="logotype" class="logo" height="32" ngSrc="assets/logo.webp" priority width="32"/>
 
-  <span tuiNavigationLogo>
-									<span tuiFade>Luxnulla</span>
-									<tui-badge>v0.1</tui-badge>
-		</span>
+  <span tuiNavigationLogo><span tuiFade>Elux</span><tui-badge>v0.1</tui-badge></span>
 
   <hr/>
 
-  <button
-    iconStart="@tui.bell"
-    tuiIconButton
-    type="button"
-  >
-    Notifications
-    <tui-badge-notification/>
-  </button>
+  <app-header/>
 </header>
 
 <div [style.display]="'flex'">
@@ -83,6 +73,7 @@
       >
         Favorites
       </button>
+
       <button
         (click)="handleToggle()"
         [iconStart]="expanded() ? '@tui.chevron-left' : '@tui.chevron-right'"
@@ -95,18 +86,6 @@
   </aside>
 
   <main>
-    <nav
-      [style.margin]="'0.5rem 0'"
-      [style.position]="'sticky'"
-      tuiSubheader
-    >
-      <app-header/>
-    </nav>
-
-    <hr>
-
-    <ng-container>
-      <ng-content/>
-    </ng-container>
+    <ng-content/>
   </main>
 </div>

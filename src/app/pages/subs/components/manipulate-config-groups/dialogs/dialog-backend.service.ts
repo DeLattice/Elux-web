@@ -9,7 +9,8 @@ interface CreateGroupDto {
   subscribeUrl?: URL;
 }
 
-interface CreateGroupRdo extends GroupRdo {}
+interface CreateGroupRdo extends GroupRdo {
+}
 
 @Injectable()
 export class DialogBackendService {
@@ -17,6 +18,10 @@ export class DialogBackendService {
 
   createGroup(payload: CreateGroupDto): Observable<CreateGroupRdo> {
     return this.http.post<CreateGroupRdo>(`groups`, payload);
+  }
+
+  updateGroup(id: number, payload: CreateGroupDto) {
+    return this.http.put(`groups/${id}`, payload);
   }
 
   deleteGroup(id: number) {
