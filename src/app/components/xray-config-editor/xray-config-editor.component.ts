@@ -53,6 +53,7 @@ export class XrayConfigEditorComponent {
     this.onSubmit()
   }
 
+
   private initEditorComponent(value: string) {
     const component = this.editCompRef = this._vcr()?.createComponent(NuMonacoEditorComponent)!;
 
@@ -93,11 +94,11 @@ export class XrayConfigEditorComponent {
     const rawXrayConfig = JSON.parse(editor.instance.editor?.getValue()!);
     if (!rawXrayConfig) return
 
-    // if (!isXrayConfigurationDto(rawXrayConfig)) {
-    //   this._alerts.open('Invalid xray config file', {appearance: 'error'}).subscribe();
-    //
-    //   return;
-    // }
+    if (!isXrayConfigurationDto(rawXrayConfig)) {
+      this._alerts.open('Invalid xray config file', {appearance: 'error'}).subscribe();
+
+      return;
+    }
 
     this._xrayService.applyXrayConfiguration(rawXrayConfig)
       .subscribe({

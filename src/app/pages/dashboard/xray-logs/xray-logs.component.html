@@ -1,19 +1,15 @@
-<h2>Xray logs</h2>
+<div>
+  <h2>Xray logs</h2>
 
-<tui-scrollbar>
+
   <cdk-virtual-scroll-viewport
     autosize
-    class="viewport tui-zero-scrollbar"
-    tuiScrollable
+    class="viewport"
   >
-    <div *cdkVirtualFor="let message of messages(); trackBy: trackByFn"
-         [class.error]="message.trim().startsWith('Failed')"
-         [class.warning]="message.trim().endsWith('failed')"
-         class="message"
+    <div
+      *cdkVirtualFor="let message of messages(); trackBy: trackByFn"
+      class="message"
     >
       {{ message }}
     </div>
   </cdk-virtual-scroll-viewport>
-</tui-scrollbar>
-
-<button (click)="forceScrollToBottom()">To Bottom</button>
